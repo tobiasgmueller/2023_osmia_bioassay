@@ -1,0 +1,48 @@
+---
+title: "main_analysis"
+author: "Tobias"
+date: "2023-06-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+```
+
+## 2023 osmia bioassay 
+
+this will be a test of markdown as a main replacement of scripts for analysis
+
+```{r data and packages}
+
+library(tidyverse)
+
+df <- read_csv("input/2023_bioassay_datasheets_combined.csv") %>%
+  mutate_if(is.character, factor)%>%
+    mutate(
+      splits = if_else(
+        str_count(treatment, '\\S+') > 2,
+        str_c(word(treatment,1,1), word(treatment,2,str_count(treatment,'\\S+')), sep = '\n'),
+        treatment
+      )
+    )
+
+
+```
+
+
+now lets just make a quick summary of 
+``` {r summary}
+
+prop_death <- df %>%
+  ggplot()+
+  geom_bar(aes(x=splits, fill=end_status))+
+  ggtitle("break down of death")+
+  scale_x_discrete(guide = guide_axis(angle = 90))
+prop_death
+
+
+```
