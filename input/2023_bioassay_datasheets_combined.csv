@@ -1,178 +1,277 @@
-day,plate_num,well,sex,treatment_num,treatment,nest,larvae,stage,end_status
-1,1,a1,f,1,Osmia pollen (control),10,4,egg,
-1,1,a3,m,2,Osmia pollen with high antibiotics,7,9,egg,
-1,1,a5,f,3,Honeybee pollen,2,5,egg,
-1,1,a7,f,4,Honeybee pollen with Osmia microbe wash,9,5,egg,dead
-1,1,a9,f,5,Sterilized Osmia pollen,5,2,egg,
-1,1,a11,m,6,Sterilized Osmia pollen with high antibiotics,6,8,egg,
-1,1,c1,f,7,Sterilized Osmia pollen with Osmia microbe wash,7,6,egg,dead
-1,1,c3,m,8,Sterilized honeybee pollen,3,9,egg,
-1,1,c5,m,9,Sterilized honeybee pollen with Osmia microbe wash,6,6,egg,
-1,1,c7,m,1,Osmia pollen (control),11,8,egg,
-1,1,c9,f,2,Osmia pollen with high antibiotics,1,4,egg,
-1,1,c11,f,3,Honeybee pollen,2,3,egg,
-1,1,e1,m,4,Honeybee pollen with Osmia microbe wash,1,10,egg,
-1,1,e3,f,5,Sterilized Osmia pollen,6,4,egg,
-1,1,e5,m,6,Sterilized Osmia pollen with high antibiotics,2,8,egg,dead
-1,1,e7,f,7,Sterilized Osmia pollen with Osmia microbe wash,5,1,egg,dead
-1,1,e9,m,8,Sterilized honeybee pollen,10,9,egg,
-1,1,g1,f,1,Osmia pollen (control),9,2,egg,
-1,1,g3,f,2,Osmia pollen with high antibiotics,6,2,egg,
-1,1,g5,f,3,Honeybee pollen,8,4,egg,
-1,1,g7,m,4,Honeybee pollen with Osmia microbe wash,2,7,egg,
-1,1,g9,f,5,Sterilized Osmia pollen,11,4,egg,
-1,2,a1,f,7,Sterilized Osmia pollen with Osmia microbe wash,1,5,egg,dead
-1,2,a3,f,8,Sterilized honeybee pollen,11,5,egg,
-1,2,a5,f,9,Sterilized honeybee pollen with Osmia microbe wash,6,1,egg,
-1,2,a7,f,1,Osmia pollen (control),4,3,egg,
-1,2,a9,f,2,Osmia pollen with high antibiotics,11,2,egg,
-1,2,a11,f,3,Honeybee pollen,4,1,egg,
-1,2,c3,m,5,Sterilized Osmia pollen,3,8,egg,
-1,2,c5,f,6,Sterilized Osmia pollen with high antibiotics,4,5,egg,
-1,2,c7,m,7,Sterilized Osmia pollen with Osmia microbe wash,6,10,egg,dead
-1,2,c9,m,8,Sterilized honeybee pollen,1,11,egg,
-1,2,c11,f,9,Sterilized honeybee pollen with Osmia microbe wash,5,6,egg,
-1,2,e1,f,1,Osmia pollen (control),3,1,egg,
-1,2,e3,m,2,Osmia pollen with high antibiotics,4,7,egg,
-1,2,e5,m,3,Honeybee pollen,6,7,egg,
-1,2,e7,m,4,Honeybee pollen with Osmia microbe wash,5,8,egg,
-1,2,e9,f,5,Sterilized Osmia pollen,6,5,egg,
-1,2,e11,f,6,Sterilized Osmia pollen with high antibiotics,8,1,egg,
-1,2,g1,m,7,Sterilized Osmia pollen with Osmia microbe wash,2,9,egg,
-1,2,g3,f,8,Sterilized honeybee pollen,11,6,egg,
-1,2,g5,m,9,Sterilized honeybee pollen with Osmia microbe wash,10,10,egg,
-1,2,g7,m,1,Osmia pollen (control),8,9,egg,
-1,2,g9,m,2,Osmia pollen with high antibiotics,7,8,egg,
-1,2,g11,m,3,Honeybee pollen,8,8,egg,
-1,3,a1,f,4,Honeybee pollen with Osmia microbe wash,4,4,egg,
-1,3,a3,m,5,Sterilized Osmia pollen,10,8,egg,
-1,3,a5,m,6,Sterilized Osmia pollen with high antibiotics,8,6,egg,dead
-1,3,a7,f,7,Sterilized Osmia pollen with Osmia microbe wash,10,7,egg,dead
-1,3,a9,f,8,Sterilized honeybee pollen,11,3,egg,
-1,3,a11,f,9,Sterilized honeybee pollen with Osmia microbe wash,5,4,egg,dead
-1,3,c1,m,1,Osmia pollen (control),6,9,egg,
-1,3,c3,m,2,Osmia pollen with high antibiotics,7,10,egg,
-1,3,c5,m,3,Honeybee pollen,1,8,egg,
-1,3,c7,m,4,Honeybee pollen with Osmia microbe wash,9,11,egg,
-1,3,c9,m,5,Sterilized Osmia pollen,4,9,egg,
-1,3,c11,f,6,Sterilized Osmia pollen with high antibiotics,11,1,egg,
-1,3,e1,m,7,Sterilized Osmia pollen with Osmia microbe wash,4,8,egg,dead
-1,3,e3,m,8,Sterilized honeybee pollen,8,5,egg,
-1,3,e5,f,9,Sterilized honeybee pollen with Osmia microbe wash,9,7,egg,dead
-1,3,e7,m,1,Osmia pollen (control),1,9,egg,
-1,3,e9,f,2,Osmia pollen with high antibiotics,5,7,egg,
-1,3,e11,m,3,Honeybee pollen,11,9,egg,
-1,3,g1,f,4,Honeybee pollen with Osmia microbe wash,2,6,egg,
-1,3,g3,m,5,Sterilized Osmia pollen,2,10,egg,
-1,3,g5,f,6,Sterilized Osmia pollen with high antibiotics,9,3,egg,
-1,3,g7,m,7,Sterilized Osmia pollen with Osmia microbe wash,11,7,egg,dead
-1,3,g9,m,8,Sterilized honeybee pollen,5,10,egg,
-1,3,g11,f,9,Sterilized honeybee pollen with Osmia microbe wash,2,4,egg,
-1,4,a1,f,1,Osmia pollen (control),1,2,egg,
-1,4,a3,m,2,Osmia pollen with high antibiotics,5,9,egg,
-1,4,a5,m,3,Honeybee pollen,8,10,egg,
-1,4,a7,f,4,Honeybee pollen with Osmia microbe wash,7,2,egg,
-1,4,a9,m,5,Sterilized Osmia pollen,8,7,egg,
-1,4,a11,f,6,Sterilized Osmia pollen with high antibiotics,10,2,egg,dead
-1,4,c1,m,7,Sterilized Osmia pollen with Osmia microbe wash,3,6,egg,dead
-1,4,c3,f,8,Sterilized honeybee pollen,10,6,egg,
-1,4,c5,m,9,Sterilized honeybee pollen with Osmia microbe wash,1,7,egg,dead
-1,4,c7,m,1,Osmia pollen (control),6,11,egg,
-1,4,c9,f,2,Osmia pollen with high antibiotics,10,3,egg,
-1,4,c11,f,3,Honeybee pollen,2,2,egg,
-1,4,e1,f,4,Honeybee pollen with Osmia microbe wash,4,6,egg,
-1,4,e3,f,5,Sterilized Osmia pollen,1,6,egg,
-1,4,e5,m,6,Sterilized Osmia pollen with high antibiotics,7,7,egg,
-1,4,e7,f,7,Sterilized Osmia pollen with Osmia microbe wash,10,5,egg,dead
-1,4,e9,f,8,Sterilized honeybee pollen,10,1,egg,
-1,4,e11,m,9,Sterilized honeybee pollen with Osmia microbe wash,3,7,egg,
-2,1,a1,f,1,Osmia pollen (control),13,2,2,
-2,1,a3,m,2,Osmia pollen with high antibiotics,18,10,e,
-2,1,a5,f,3,Honeybee pollen,13,4,2,
-2,1,a7,m,4,Honeybee pollen with Osmia microbe wash,14,12,e,
-2,1,a9,m,5,Sterilized Osmia pollen,22,10,e,
-2,1,a11,m,6,Sterilized Osmia pollen with high antibiotics,15,7,1,
-2,1,c1,f,7,Sterilized Osmia pollen with Osmia microbe wash,15,2,2,dead
-2,1,c3,f,8,Sterilized honeybee pollen,21,1,e,
-2,1,c5,f,9,Sterilized honeybee pollen with Osmia microbe wash,19,3,1,
-2,1,c7,f,1,Osmia pollen (control),16,2,2,
-2,1,c9,m,2,Osmia pollen with high antibiotics,19,6,e,
-2,1,c11,m,3,Honeybee pollen,18,9,e,
-2,1,e1,f,4,Honeybee pollen with Osmia microbe wash,17,3,1,
-2,1,e3,m,5,Sterilized Osmia pollen,22,12,e,
-2,1,e5,f,6,Sterilized Osmia pollen with high antibiotics,18,2,2,
-2,1,e7,f,7,Sterilized Osmia pollen with Osmia microbe wash,14,4,2,
-2,1,e9,m,8,Sterilized honeybee pollen,14,7,1,
-2,1,e11,f,9,Sterilized honeybee pollen with Osmia microbe wash,15,6,1,
-2,1,g1,m,1,Osmia pollen (control),12,8,e,
-2,1,g3,m,2,Osmia pollen with high antibiotics,19,10,e,
-2,1,g5,f,3,Honeybee pollen,16,4,2,
-2,1,g7,m,4,Honeybee pollen with Osmia microbe wash,18,5,2,
-2,1,g9,f,5,Sterilized Osmia pollen,12,1,2,
-2,1,g11,m,6,Sterilized Osmia pollen with high antibiotics,17,6,e,
-2,2,a1,f,7,Sterilized Osmia pollen with Osmia microbe wash,17,2,1,
-2,2,a3,m,8,Sterilized honeybee pollen,13,8,e,
-2,2,a5,m,9,Sterilized honeybee pollen with Osmia microbe wash,17,7,e,dead
-2,2,a7,f,1,Osmia pollen (control),14,5,2,
-2,2,a9,m,2,Osmia pollen with high antibiotics,16,6,1,
-2,2,a11,m,3,Honeybee pollen,15,10,e,
-2,2,c1,m,4,Honeybee pollen with Osmia microbe wash,17,4,1,
-2,2,c3,f,5,Sterilized Osmia pollen,15,4,2,
-2,2,c5,m,6,Sterilized Osmia pollen with high antibiotics,18,8,e,
-2,2,c7,m,7,Sterilized Osmia pollen with Osmia microbe wash,15,9,e,
-2,2,c9,m,8,Sterilized honeybee pollen,16,13,e,
-2,2,c11,f,9,Sterilized honeybee pollen with Osmia microbe wash,16,12,e,
-2,2,e1,m,1,Osmia pollen (control),18,12,e,
-2,2,e3,f,2,Osmia pollen with high antibiotics,22,2,2,
-2,2,e5,f,3,Honeybee pollen,18,4,2,
-2,2,e7,m,4,Honeybee pollen with Osmia microbe wash,12,5,e,
-2,2,e9,m,5,Sterilized Osmia pollen,19,4,e,
-2,2,e11,m,6,Sterilized Osmia pollen with high antibiotics,12,7,e,
-2,2,g1,f,7,Sterilized Osmia pollen with Osmia microbe wash,12,2,2,
-2,2,g3,m,8,Sterilized honeybee pollen,13,9,e,
-2,2,g5,m,9,Sterilized honeybee pollen with Osmia microbe wash,13,10,e,
-2,2,g7,f,1,Osmia pollen (control),20,3,2,
-2,2,g9,m,2,Osmia pollen with high antibiotics,20,9,2,
-2,2,g11,m,3,Honeybee pollen,20,8,2,
-2,3,a1,f,4,Honeybee pollen with Osmia microbe wash,13,3,2,
-2,3,a3,f,2,Osmia pollen with high antibiotics,14,2,2,
-2,3,a5,f,6,Sterilized Osmia pollen with high antibiotics,16,3,2,
-2,3,a7,m,7,Sterilized Osmia pollen with Osmia microbe wash,15,8,e,
-2,3,a9,f,8,Sterilized honeybee pollen,12,4,e,
-2,3,a11,m,9,Sterilized honeybee pollen with Osmia microbe wash,13,5,1,
-2,3,c1,m,1,Osmia pollen (control),18,7,e,
-2,3,c3,f,2,Osmia pollen with high antibiotics,20,5,2,
-2,3,c5,m,3,Honeybee pollen,22,11,e,
-2,3,c7,m,4,Honeybee pollen with Osmia microbe wash,19,5,e,dead
-2,3,c9,f,5,Sterilized Osmia pollen,22,1,2,
-2,3,c11,f,6,Sterilized Osmia pollen with high antibiotics,20,2,2,
-2,3,e1,m,7,Sterilized Osmia pollen with Osmia microbe wash,16,11,e,
-2,3,e3,m,8,Sterilized honeybee pollen,17,9,e,
-2,3,e5,m,9,Sterilized honeybee pollen with Osmia microbe wash,16,8,e,
-2,3,e7,m,1,Osmia pollen (control),16,9,e,
-2,3,e9,f,2,Osmia pollen with high antibiotics,18,1,2,
-2,3,e11,m,3,Honeybee pollen,12,6,e,
-2,3,g1,f,4,Honeybee pollen with Osmia microbe wash,18,6,1,dead
-2,3,g3,f,5,Sterilized Osmia pollen,20,4,e,
-2,3,g5,m,6,Sterilized Osmia pollen with high antibiotics,19,9,e,
-2,3,g7,m,7,Sterilized Osmia pollen with Osmia microbe wash,16,7,e,
-2,3,g9,f,8,Sterilized honeybee pollen,14,1,2,
-2,3,g11,m,9,Sterilized honeybee pollen with Osmia microbe wash,15,11,e,
-2,4,a1,m,1,Osmia pollen (control),18,11,e,
-2,4,a3,m,5,Sterilized Osmia pollen,22,8,2,
-2,4,a5,f,3,Honeybee pollen,19,1,2,
-2,4,a7,f,4,Honeybee pollen with Osmia microbe wash,15,3,2,
-2,4,a9,f,5,Sterilized Osmia pollen,22,4,2,
-2,4,a11,f,6,Sterilized Osmia pollen with high antibiotics,18,3,2,
-2,4,c1,m,7,Sterilized Osmia pollen with Osmia microbe wash,13,6,e,
-2,4,c3,f,8,Sterilized honeybee pollen,22,5,2,
-2,4,c5,f,9,Sterilized honeybee pollen with Osmia microbe wash,12,3,e,
-2,4,c7,f,1,Osmia pollen (control),20,1,2,
-2,4,c9,f,2,Osmia pollen with high antibiotics,21,2,e,
-2,4,c11,f,3,Honeybee pollen,16,5,2,
-2,4,e1,f,4,Honeybee pollen with Osmia microbe wash,14,3,2,
-2,4,e3,m,5,Sterilized Osmia pollen,20,6,2,
-2,4,e5,f,6,Sterilized Osmia pollen with high antibiotics,15,1,2,
-2,4,e7,f,7,Sterilized Osmia pollen with Osmia microbe wash,22,6,2,
-2,4,e9,f,8,Sterilized honeybee pollen,16,1,2,
-2,4,e11,f,9,Sterilized honeybee pollen with Osmia microbe wash,13,1,2,
+day,plate_num,well,treatment,end_status,end_date
+1,1,a1,Osmia pollen (control),cocoon,5/22
+1,1,a3,Osmia pollen with high antibiotics,cocoon,5/22
+1,1,a5,Honeybee pollen,cocoon,5/29
+1,1,a7,Honeybee pollen with Osmia microbe wash,dead,5/27
+1,1,a9,Sterilized Osmia pollen,dead,6/12
+1,1,a11,Sterilized Osmia pollen with high antibiotics,dead,6/9
+1,1,c1,Sterilized Osmia pollen with Osmia microbe wash,dead,5/19
+1,1,c3,Sterilized honeybee pollen,cocoon,5/24
+1,1,c5,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/7
+1,1,c7,Osmia pollen (control),cocoon,5/19
+1,1,c9,Osmia pollen with high antibiotics,cocoon,5/22
+1,1,c11,Honeybee pollen,cocoon,5/22
+1,1,e1,Honeybee pollen with Osmia microbe wash,cocoon,5/31
+1,1,e3,Sterilized Osmia pollen,dead,6/16
+1,1,e5,Sterilized Osmia pollen with high antibiotics,dead,6/3
+1,1,e7,Sterilized Osmia pollen with Osmia microbe wash,dead,5/27
+1,1,e9,Sterilized honeybee pollen,cocoon,5/24
+1,1,e11,Sterilized honeybee pollen with Osmia microbe wash,dead,remove
+1,1,g1,Osmia pollen (control),cocoon,5/22
+1,1,g3,Osmia pollen with high antibiotics,cocoon,5/19
+1,1,g5,Honeybee pollen,cocoon,5/22
+1,1,g7,Honeybee pollen with Osmia microbe wash,dead,6/19
+1,1,g9,Sterilized Osmia pollen,dead,6/19
+1,1,g11,Sterilized Osmia pollen with high antibiotics,dead,remove
+1,2,a1,Sterilized Osmia pollen with Osmia microbe wash,dead,5/27
+1,2,a3,Sterilized honeybee pollen,cocoon,5/29
+1,2,a5,Sterilized honeybee pollen with Osmia microbe wash,cocoon,5/31
+1,2,a7,Osmia pollen (control),cocoon,5/22
+1,2,a9,Osmia pollen with high antibiotics,cocoon,5/24
+1,2,a11,Honeybee pollen,cocoon,5/27
+1,2,c1,Honeybee pollen with Osmia microbe wash,dead,remove
+1,2,c3,Sterilized Osmia pollen,dead,6/19
+1,2,c5,Sterilized Osmia pollen with high antibiotics,dead,6/12
+1,2,c7,Sterilized Osmia pollen with Osmia microbe wash,dead,5/22
+1,2,c9,Sterilized honeybee pollen,cocoon,5/27
+1,2,c11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/9
+1,2,e1,Osmia pollen (control),cocoon,5/22
+1,2,e3,Osmia pollen with high antibiotics,cocoon,5/19
+1,2,e5,Honeybee pollen,cocoon,5/24
+1,2,e7,Honeybee pollen with Osmia microbe wash,cocoon,5/31
+1,2,e9,Sterilized Osmia pollen,dead,6/19
+1,2,e11,Sterilized Osmia pollen with high antibiotics,dead,6/12
+1,2,g1,Sterilized Osmia pollen with Osmia microbe wash,dead,5/27
+1,2,g3,Sterilized honeybee pollen,cocoon,5/29
+1,2,g5,Sterilized honeybee pollen with Osmia microbe wash,dead,6/16
+1,2,g7,Osmia pollen (control),cocoon,5/19
+1,2,g9,Osmia pollen with high antibiotics,cocoon,5/22
+1,2,g11,Honeybee pollen,cocoon,5/24
+1,3,a1,Honeybee pollen with Osmia microbe wash,dead,6/9
+1,3,a3,Sterilized Osmia pollen,dead,6/23
+1,3,a5,Sterilized Osmia pollen with high antibiotics,dead,5/27
+1,3,a7,Sterilized Osmia pollen with Osmia microbe wash,dead,5/19
+1,3,a9,Sterilized honeybee pollen,cocoon,5/22
+1,3,a11,Sterilized honeybee pollen with Osmia microbe wash,dead,5/5
+1,3,c1,Osmia pollen (control),cocoon,5/22
+1,3,c3,Osmia pollen with high antibiotics,cocoon,5/22
+1,3,c5,Honeybee pollen,cocoon,5/22
+1,3,c7,Honeybee pollen with Osmia microbe wash,dead,6/9
+1,3,c9,Sterilized Osmia pollen,dead,6/7
+1,3,c11,Sterilized Osmia pollen with high antibiotics,dead,6/9
+1,3,e1,Sterilized Osmia pollen with Osmia microbe wash,dead,6/9
+1,3,e3,Sterilized honeybee pollen,cocoon,5/27
+1,3,e5,Sterilized honeybee pollen with Osmia microbe wash,dead,remove
+1,3,e7,Osmia pollen (control),cocoon,5/22
+1,3,e9,Osmia pollen with high antibiotics,cocoon,5/27
+1,3,e11,Honeybee pollen,cocoon,5/27
+1,3,g1,Honeybee pollen with Osmia microbe wash,dead,6/9
+1,3,g3,Sterilized Osmia pollen,dead,6/21
+1,3,g5,Sterilized Osmia pollen with high antibiotics,dead,6/9
+1,3,g7,Sterilized Osmia pollen with Osmia microbe wash,dead,5/17
+1,3,g9,Sterilized honeybee pollen,cocoon,5/27
+1,3,g11,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/9
+1,4,a1,Osmia pollen (control),cocoon,5/22
+1,4,a3,Osmia pollen with high antibiotics,cocoon,5/24
+1,4,a5,Honeybee pollen,cocoon,5/22
+1,4,a7,Honeybee pollen with Osmia microbe wash,cocoon,5/29
+1,4,a9,Sterilized Osmia pollen,dead,6/5
+1,4,a11,Sterilized Osmia pollen with high antibiotics,dead,5/27
+1,4,c1,Sterilized Osmia pollen with Osmia microbe wash,dead,5/15
+1,4,c3,Sterilized honeybee pollen,cocoon,5/27
+1,4,c5,Sterilized honeybee pollen with Osmia microbe wash,dead,5/3
+1,4,c7,Osmia pollen (control),cocoon,5/22
+1,4,c9,Osmia pollen with high antibiotics,cocoon,5/19
+1,4,c11,Honeybee pollen,cocoon,5/27
+1,4,e1,Honeybee pollen with Osmia microbe wash,cocoon,6/7
+1,4,e3,Sterilized Osmia pollen,dead,6/21
+1,4,e5,Sterilized Osmia pollen with high antibiotics,dead,6/9
+1,4,e7,Sterilized Osmia pollen with Osmia microbe wash,dead,5/22
+1,4,e9,Sterilized honeybee pollen,cocoon,5/29
+1,4,e11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/14
+2,1,a1,Osmia pollen (control),cocoon,5/29
+2,1,a3,Osmia pollen with high antibiotics,cocoon,5/31
+2,1,a5,Honeybee pollen,cocoon,5/31
+2,1,a7,Honeybee pollen with Osmia microbe wash,dead,6/9
+2,1,a9,Sterilized Osmia pollen,cocoon,6/14
+2,1,a11,Sterilized Osmia pollen with high antibiotics,dead,6/12
+2,1,c1,Sterilized Osmia pollen with Osmia microbe wash,dead,6/3
+2,1,c3,Sterilized honeybee pollen,cocoon,6/12
+2,1,c5,Sterilized honeybee pollen with Osmia microbe wash,,
+2,1,c7,Osmia pollen (control),cocoon,5/27
+2,1,c9,Osmia pollen with high antibiotics,cocoon,6/5
+2,1,c11,Honeybee pollen,cocoon,6/3
+2,1,e1,Honeybee pollen with Osmia microbe wash,dead,6/19
+2,1,e3,Sterilized Osmia pollen,cocoon,6/9
+2,1,e5,Sterilized Osmia pollen with high antibiotics,cocoon,6/5
+2,1,e7,Sterilized Osmia pollen with Osmia microbe wash,dead,6/19
+2,1,e9,Sterilized honeybee pollen,cocoon,6/3
+2,1,e11,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/21
+2,1,g1,Osmia pollen (control),cocoon,6/7
+2,1,g3,Osmia pollen with high antibiotics,cocoon,6/5
+2,1,g5,Honeybee pollen,cocoon,6/3
+2,1,g7,Honeybee pollen with Osmia microbe wash,dead,6/12
+2,1,g9,Sterilized Osmia pollen,cocoon,6/16
+2,1,g11,Sterilized Osmia pollen with high antibiotics,cocoon,6/14
+2,2,a1,Sterilized Osmia pollen with Osmia microbe wash,,
+2,2,a3,Sterilized honeybee pollen,cocoon,6/7
+2,2,a5,Sterilized honeybee pollen with Osmia microbe wash,dead,remove
+2,2,a7,Osmia pollen (control),cocoon,5/29
+2,2,a9,Osmia pollen with high antibiotics,cocoon,5/29
+2,2,a11,Honeybee pollen,cocoon,6/7
+2,2,c1,Honeybee pollen with Osmia microbe wash,dead,6/16
+2,2,c3,Sterilized Osmia pollen,cocoon,6/7
+2,2,c5,Sterilized Osmia pollen with high antibiotics,cocoon,6/5
+2,2,c7,Sterilized Osmia pollen with Osmia microbe wash,dead,6/12
+2,2,c9,Sterilized honeybee pollen,cocoon,6/14
+2,2,c11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/19
+2,2,e1,Osmia pollen (control),cocoon,5/31
+2,2,e3,Osmia pollen with high antibiotics,cocoon,5/27
+2,2,e5,Honeybee pollen,cocoon,5/27
+2,2,e7,Honeybee pollen with Osmia microbe wash,dead,6/14
+2,2,e9,Sterilized Osmia pollen,cocoon,6/9
+2,2,e11,Sterilized Osmia pollen with high antibiotics,dead,6/19
+2,2,g1,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/21
+2,2,g3,Sterilized honeybee pollen,cocoon,6/7
+2,2,g5,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/14
+2,2,g7,Osmia pollen (control),cocoon,5/29
+2,2,g9,Osmia pollen with high antibiotics,cocoon,5/29
+2,2,g11,Honeybee pollen,cocoon,6/9
+2,3,a1,Honeybee pollen with Osmia microbe wash,dead,6/14
+2,3,a3,Osmia pollen with high antibiotics,cocoon,5/27
+2,3,a5,Sterilized Osmia pollen with high antibiotics,cocoon,6/9
+2,3,a7,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/19
+2,3,a9,Sterilized honeybee pollen,cocoon,6/9
+2,3,a11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/21
+2,3,c1,Osmia pollen (control),cocoon,5/31
+2,3,c3,Osmia pollen with high antibiotics,cocoon,5/27
+2,3,c5,Honeybee pollen,cocoon,6/7
+2,3,c7,Honeybee pollen with Osmia microbe wash,dead,6/9
+2,3,c9,Sterilized Osmia pollen,cocoon,6/9
+2,3,c11,Sterilized Osmia pollen with high antibiotics,cocoon,6/12
+2,3,e1,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/23
+2,3,e3,Sterilized honeybee pollen,cocoon,6/9
+2,3,e5,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/16
+2,3,e7,Osmia pollen (control),cocoon,5/31
+2,3,e9,Osmia pollen with high antibiotics,cocoon,5/27
+2,3,e11,Honeybee pollen,cocoon,6/9
+2,3,g1,Honeybee pollen with Osmia microbe wash,dead,5/29
+2,3,g3,Sterilized Osmia pollen,cocoon,6/7
+2,3,g5,Sterilized Osmia pollen with high antibiotics,cocoon,6/12
+2,3,g7,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/12
+2,3,g9,Sterilized honeybee pollen,cocoon,6/7
+2,3,g11,Sterilized honeybee pollen with Osmia microbe wash,,
+2,4,a1,Osmia pollen (control),cocoon,6/3
+2,4,a3,Sterilized Osmia pollen,cocoon,6/9
+2,4,a5,Honeybee pollen,cocoon,5/29
+2,4,a7,Honeybee pollen with Osmia microbe wash,dead,6/14
+2,4,a9,Sterilized Osmia pollen,cocoon,6/9
+2,4,a11,Sterilized Osmia pollen with high antibiotics,cocoon,6/12
+2,4,c1,Sterilized Osmia pollen with Osmia microbe wash,,
+2,4,c3,Sterilized honeybee pollen,cocoon,6/12
+2,4,c5,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/26
+2,4,c7,Osmia pollen (control),cocoon,5/27
+2,4,c9,Osmia pollen with high antibiotics,cocoon,6/3
+2,4,c11,Honeybee pollen,cocoon,6/3
+2,4,e1,Honeybee pollen with Osmia microbe wash,dead,6/19
+2,4,e3,Sterilized Osmia pollen,cocoon,6/7
+2,4,e5,Sterilized Osmia pollen with high antibiotics,cocoon,6/7
+2,4,e7,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/19
+2,4,e9,Sterilized honeybee pollen,cocoon,6/7
+2,4,e11,Sterilized honeybee pollen with Osmia microbe wash,cocoon,6/26
+3,1,a1,Osmia pollen (control),cocoon,6/21
+3,1,a3,Osmia pollen with high antibiotics,cocoon,6/19
+3,1,a5,Honeybee pollen,dead,6/21
+3,1,a7,Honeybee pollen with Osmia microbe wash,,
+3,1,a9,Sterilized Osmia pollen,dead,6/5
+3,1,a11,Sterilized Osmia pollen with high antibiotics,cocoon,6/23
+3,1,c1,Sterilized Osmia pollen with Osmia microbe wash,,
+3,1,c3,Sterilized honeybee pollen,dead,6/7
+3,1,c5,Sterilized honeybee pollen with Osmia microbe wash,dead,6/23
+3,1,c7,Osmia pollen (control),cocoon,6/21
+3,1,c9,Osmia pollen with high antibiotics,cocoon,6/16
+3,1,c11,Honeybee pollen,dead,6/19
+3,1,e1,Honeybee pollen with Osmia microbe wash,,
+3,1,e3,Sterilized Osmia pollen,cocoon,6/21
+3,1,e5,Sterilized Osmia pollen with high antibiotics,cocoon,6/19
+3,1,e7,Sterilized Osmia pollen with Osmia microbe wash,,
+3,1,e9,Sterilized honeybee pollen,cocoon,6/26
+3,1,e11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/12
+3,1,g1,Osmia pollen (control),cocoon,6/21
+3,1,g3,Osmia pollen with high antibiotics,cocoon,6/16
+3,1,g5,Honeybee pollen,dead,6/21
+3,1,g7,Honeybee pollen with Osmia microbe wash,dead,6/23
+3,1,g9,Sterilized Osmia pollen,cocoon,6/19
+3,1,g11,Sterilized Osmia pollen with high antibiotics,cocoon,6/21
+3,2,a1,Sterilized Osmia pollen with Osmia microbe wash,dead,remove
+3,2,a3,Sterilized honeybee pollen,,
+3,2,a5,Sterilized honeybee pollen with Osmia microbe wash,dead,6/9
+3,2,a7,Osmia pollen (control),cocoon,6/21
+3,2,a9,Osmia pollen with high antibiotics,cocoon,6/19
+3,2,a11,Honeybee pollen,,
+3,2,c1,Honeybee pollen with Osmia microbe wash,dead,6/19
+3,2,c3,Sterilized Osmia pollen,cocoon,6/26
+3,2,c5,Sterilized Osmia pollen with high antibiotics,cocoon,6/16
+3,2,c7,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/26
+3,2,c9,Sterilized honeybee pollen,cocoon,6/26
+3,2,c11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/19
+3,2,e1,Osmia pollen (control),cocoon,6/21
+3,2,e3,Osmia pollen with high antibiotics,cocoon,6/16
+3,2,e5,Honeybee pollen,,
+3,2,e7,Honeybee pollen with Osmia microbe wash,dead,6/19
+3,2,e9,Sterilized Osmia pollen,cocoon,6/21
+3,2,e11,Sterilized Osmia pollen with high antibiotics,cocoon,6/26
+3,2,g1,Sterilized Osmia pollen with Osmia microbe wash,dead,6/26
+3,2,g3,Sterilized honeybee pollen,,
+3,2,g5,Sterilized honeybee pollen with Osmia microbe wash,dead,6/12
+3,2,g7,Osmia pollen (control),cocoon,6/19
+3,2,g9,Osmia pollen with high antibiotics,cocoon,6/16
+3,2,g11,Honeybee pollen,dead,6/26
+3,3,a1,Honeybee pollen with Osmia microbe wash,dead,6/7
+3,3,a3,Sterilized Osmia pollen,cocoon,6/21
+3,3,a5,Sterilized Osmia pollen with high antibiotics,cocoon,6/19
+3,3,a7,Sterilized Osmia pollen with Osmia microbe wash,,
+3,3,a9,Sterilized honeybee pollen,,
+3,3,a11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/14
+3,3,c1,Osmia pollen (control),cocoon,6/21
+3,3,c3,Osmia pollen with high antibiotics,cocoon,6/19
+3,3,c5,Honeybee pollen,,
+3,3,c7,Honeybee pollen with Osmia microbe wash,dead,6/16
+3,3,c9,Sterilized Osmia pollen,cocoon,6/21
+3,3,c11,Sterilized Osmia pollen with high antibiotics,dead,6/26
+3,3,e1,Sterilized Osmia pollen with Osmia microbe wash,,
+3,3,e3,Sterilized honeybee pollen,,
+3,3,e5,Sterilized honeybee pollen with Osmia microbe wash,dead,6/9
+3,3,e7,Osmia pollen (control),cocoon,6/16
+3,3,e9,Osmia pollen with high antibiotics,cocoon,6/21
+3,3,e11,Honeybee pollen,dead,6/26
+3,3,g1,Honeybee pollen with Osmia microbe wash,dead,6/12
+3,3,g3,Sterilized Osmia pollen,cocoon,6/26
+3,3,g5,Sterilized Osmia pollen with high antibiotics,cocoon,6/26
+3,3,g7,Sterilized Osmia pollen with Osmia microbe wash,cocoon,6/26
+3,3,g9,Sterilized honeybee pollen,dead,6/23
+3,3,g11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/12
+3,4,a1,Osmia pollen (control),cocoon,6/23
+3,4,a3,Osmia pollen with high antibiotics,cocoon,6/26
+3,4,a5,Honeybee pollen,,
+3,4,a7,Honeybee pollen with Osmia microbe wash,,
+3,4,a9,Sterilized Osmia pollen,dead,6/26
+3,4,a11,Sterilized Osmia pollen with high antibiotics,cocoon,6/26
+3,4,c1,Sterilized Osmia pollen with Osmia microbe wash,,
+3,4,c3,Sterilized honeybee pollen,,
+3,4,c5,Sterilized honeybee pollen with Osmia microbe wash,dead,6/14
+3,4,c7,Osmia pollen (control),cocoon,6/19
+3,4,c9,Osmia pollen with high antibiotics,cocoon,6/19
+3,4,c11,Honeybee pollen,cocoon,6/26
+3,4,e1,Honeybee pollen with Osmia microbe wash,,
+3,4,e3,Sterilized Osmia pollen,cocoon,6/21
+3,4,e5,Sterilized Osmia pollen with high antibiotics,cocoon,6/23
+3,4,e7,Sterilized Osmia pollen with Osmia microbe wash,,
+3,4,e9,Sterilized honeybee pollen,,
+3,4,e11,Sterilized honeybee pollen with Osmia microbe wash,dead,6/14
+3,4,g1,,,
+3,4,g3,,,
+3,4,g5,,,
+3,4,g7,,,
+3,4,g9,,,
+3,4,g11,,,
