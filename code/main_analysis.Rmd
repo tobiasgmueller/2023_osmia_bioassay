@@ -10,8 +10,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
-library(tidyverse)
-library(rstatix)
+
+library(tidyverse) # for data playing
+library(rstatix) # for piped stats
+
+# for survival analysis
+library(survival)
+library(ranger)
+library(ggfortify)
+library(survminer)
 
 #this sets wd to root dir
 
@@ -27,7 +34,8 @@ this will be a test of markdown as a main replacement of scripts for analysis
 df <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_rows = TRUE)%>%
   filter(!end_date == "remove")%>%
   mutate(end_date = as.Date(end_date, format= "%Y/%m/%d"),
-         start_date= as.Date(start_date, format= "%Y/%m/%d"))%>% # make date a date
+         start_date= as.Date(start_date, format= "%Y/%m/%d"), # make date a date
+         status = if_else(end_status == "dead", 1, 0))%>% # add 0 and 1 status for survival analysis
   mutate_if(is.character, factor)%>% # change other chr to factors
     mutate( # make a column of treatment names with line breaks for better graph labels
       splits = if_else( 
@@ -83,14 +91,66 @@ test<-df %>%
 
 ```
 
-```{r survival analysis}
-
-library(survival)
-library(ranger)
-library(ggfortify)
 
 
+no difference in survival across sex
+```{r survival analysis KM}
+km_sex <- survfit(Surv(days_to_event, status) ~ sex, data=df)
+autoplot(km_sex)+
+    theme(legend.position="bottom")
+
+
+km_treatment <- survfit(Surv(days_to_event, status) ~ treatment, data=df)
+
+summary(km_treatment, times = c(1,5*(1:12)))
+
+autoplot(km_treatment)+
+    theme(legend.position="bottom")
+```
+
+
+```{r survival cox}
+
+cox <- coxph(Surv(days_to_event, status) ~ treatment + sex + stage, data = df)
+
+summary(cox)
+
+
+cox_fit <- survfit(cox)
+
+autoplot(cox_fit)
 
 ```
+
+
+```{r cox split by variable}
+aa_fit <-aareg(Surv(days_to_event) ~ treatment + sex + stage, data = df)
+
+autoplot(aa_fit)
+```
+
+
+hmmm not sure about this one
+```{r pairwise survival}
+
+
+
+pairwise_survdiff(Surv(days_to_event, status) ~ treatment,
+                  data = df,
+                  p.adjust.method = "BH",
+                  rho = 0)
+                 
+                  
+```
+
+
+
+
+
+
+
+
+
+
 
 
