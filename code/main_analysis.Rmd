@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+#this sets wd to root dir
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 
@@ -19,14 +20,13 @@ library(survival)
 library(ranger)
 library(ggfortify)
 library(survminer)
+library(coxme)
 
-#this sets wd to root dir
+library(gtsummary)
 
 ```
 
 ## 2023 osmia bioassay 
-
-this will be a test of markdown as a main replacement of scripts for analysis
 
 
 ```{r data}
@@ -44,10 +44,18 @@ df <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_rows = 
         treatment
       )
     ) %>%
-  mutate(days_to_event = end_date-start_date) # calculate the days until cocoon or death
-
+  mutate(days_to_event = end_date-start_date) %>% # calculate the days in assay until cocoon or death
+  mutate(treatment=relevel(treatment,ref="Osmia pollen (control)")) %>% # make osmia control first level 
+  mutate(day = as.factor(day),
+         plate_num = as.factor(plate_num))%>%
+  mutate(days_to_death = if_else(end_status == "dead", days_to_event, max(days_to_event))) # i need to make a column where survivors live until the last check point, not just to cocoon
+ 
+head(df)
 
 ```
+metadata :
+  - 
+
 
 
 now lets just make a quick summary of 
@@ -86,7 +94,7 @@ df %>%
   kruskal_test(end_status ~ treatment)
 
 
-test<-df %>%
+df %>%
   dunn_test(end_status ~ treatment, p.adjust.method = "holm")
 
 ```
@@ -95,56 +103,50 @@ test<-df %>%
 
 no difference in survival across sex
 ```{r survival analysis KM}
-km_sex <- survfit(Surv(days_to_event, status) ~ sex, data=df)
-autoplot(km_sex)+
-    theme(legend.position="bottom")
+km_sex <- survfit(Surv(days_to_death, status) ~ sex, data=df)
+ggsurvplot(km_sex, data = df, pval = TRUE)
 
 
-km_treatment <- survfit(Surv(days_to_event, status) ~ treatment, data=df)
 
+km_day <- survfit(Surv(days_to_death, status) ~ day, data=df)
+ggsurvplot(km_day, data = df, pval = TRUE)
+
+
+
+
+km_treatment <- survfit(Surv(days_to_death, status) ~ treatment, data=df)
 summary(km_treatment, times = c(1,5*(1:12)))
 
-autoplot(km_treatment)+
-    theme(legend.position="bottom")
+plot<-ggsurvplot(km_treatment, data = df, pval = TRUE,
+           legend = "right",
+           conf.int = TRUE,
+           conf.int.style = "step",
+           conf.int.alpha = .09,
+           surv.median.line = "hv")
+
+plot
+
+
+pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df, p.adjust.method = "BH", rho = 0)
+
+
 ```
 
 
 ```{r survival cox}
 
-cox <- coxph(Surv(days_to_event, status) ~ treatment + sex + stage, data = df)
 
-summary(cox)
-
-
-cox_fit <- survfit(cox)
-
-autoplot(cox_fit)
+  coxph(Surv(days_to_death, status) ~ treatment, data = df) %>% 
+    tbl_regression(exp = TRUE) 
 
 ```
 
 
 ```{r cox split by variable}
-aa_fit <-aareg(Surv(days_to_event) ~ treatment + sex + stage, data = df)
+aa_fit <-aareg(Surv(days_to_death) ~ treatment + sex + stage + day, data = df)
 
 autoplot(aa_fit)
 ```
-
-
-hmmm not sure about this one
-```{r pairwise survival}
-
-
-
-pairwise_survdiff(Surv(days_to_event, status) ~ treatment,
-                  data = df,
-                  p.adjust.method = "BH",
-                  rho = 0)
-                 
-                  
-```
-
-
-
 
 
 
