@@ -21,7 +21,7 @@ library(ranger)
 library(ggfortify)
 library(survminer)
 library(coxme)
-
+library(survival)
 library(gtsummary)
 
 ```
@@ -117,14 +117,33 @@ ggsurvplot(km_day, data = df, pval = TRUE)
 km_treatment <- survfit(Surv(days_to_death, status) ~ treatment, data=df)
 summary(km_treatment, times = c(1,5*(1:12)))
 
-plot<-ggsurvplot(km_treatment, data = df, pval = TRUE,
+gg<-ggsurvplot(km_treatment, data = df, pval = TRUE,
            legend = "right",
            conf.int = TRUE,
            conf.int.style = "step",
            conf.int.alpha = .09,
            surv.median.line = "hv")
 
-plot
+  if(nudge){
+    # this mess puls apart the ggplot/ggsuv object and manually manipulates the values to avoid overlap at the 100% survival line. 
+# Jitter ammount is computed using the numeric factor level of the color used for grouping.  Not elegant, but it works in my limited testing.
+    gg_decon <- ggplot_build(gg$plot)
+    ng <- length(unique(gg_decon$data[[1]]$colour))
+   # modify the lines 
+    gg_decon$data[[1]] <-  gg_decon$data[[1]] %>%
+      mutate(y=ifelse(y==1, 1 + (.01*as.numeric(as.factor(colour))), y))
+   # modify the censor point
+    gg_decon$data[[3]] <-  gg_decon$data[[3]] %>%
+      mutate(y=ifelse(y==1, 1 + (.01*as.numeric(as.factor(colour))), y))
+   # from https://ggplot2-book.org/internals.html
+    gtable <- ggplot_gtable(gg_decon)
+    grid::grid.newpage()
+    grid::grid.draw(gtable)
+    return(invisible(gtable))
+  } else{
+    return(gg)
+  }
+
 
 
 pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df, p.adjust.method = "BH", rho = 0)
