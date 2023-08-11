@@ -113,7 +113,7 @@ ggsurvplot(km_day, data = df, pval = TRUE)
 
 
 
-
+# with all trials
 km_treatment <- survfit(Surv(days_to_death, status) ~ treatment, data=df)
 summary(km_treatment, times = c(1,5*(1:12)))
 
@@ -124,33 +124,42 @@ gg<-ggsurvplot(km_treatment, data = df, pval = TRUE,
            conf.int.alpha = .09,
            surv.median.line = "hv")
 
-  if(nudge){
-    # this mess puls apart the ggplot/ggsuv object and manually manipulates the values to avoid overlap at the 100% survival line. 
-# Jitter ammount is computed using the numeric factor level of the color used for grouping.  Not elegant, but it works in my limited testing.
-    gg_decon <- ggplot_build(gg$plot)
-    ng <- length(unique(gg_decon$data[[1]]$colour))
-   # modify the lines 
-    gg_decon$data[[1]] <-  gg_decon$data[[1]] %>%
-      mutate(y=ifelse(y==1, 1 + (.01*as.numeric(as.factor(colour))), y))
-   # modify the censor point
-    gg_decon$data[[3]] <-  gg_decon$data[[3]] %>%
-      mutate(y=ifelse(y==1, 1 + (.01*as.numeric(as.factor(colour))), y))
-   # from https://ggplot2-book.org/internals.html
-    gtable <- ggplot_gtable(gg_decon)
-    grid::grid.newpage()
-    grid::grid.draw(gtable)
-    return(invisible(gtable))
-  } else{
-    return(gg)
-  }
-
-
 
 pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df, p.adjust.method = "BH", rho = 0)
 
 
 ```
 
+
+Now do the same removing day 1
+
+```{r survival analysis KM - days 2and3}
+df23<- df %>%
+  filter(day != 1)
+
+km_sex23 <- survfit(Surv(days_to_death, status) ~ sex, data=df23)
+ggsurvplot(km_sex23, data = df23, pval = TRUE)
+
+
+
+km_day23 <- survfit(Surv(days_to_death, status) ~ day, data=df23)
+ggsurvplot(km_day23, data = df23, pval = TRUE)
+
+
+km_treatment23 <- survfit(Surv(days_to_death, status) ~ treatment, data=df23)
+summary(km_treatment23, times = c(1,5*(1:12)))
+
+gg23<-ggsurvplot(km_treatment23, data = df23, pval = TRUE,
+           legend = "right",
+           conf.int = TRUE,
+           conf.int.style = "step",
+           conf.int.alpha = .09,
+           surv.median.line = "hv")
+
+pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df23, p.adjust.method = "BH", rho = 0)
+
+
+```
 
 ```{r survival cox}
 
