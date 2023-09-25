@@ -85,7 +85,22 @@ time_to_cocoon <- df %>%
   geom_boxplot()
 
 ```
+```{r time of development}
 
+only_control<-df %>%
+  filter(end_status=="cocoon", treatment=="Osmia pollen (control)")%>%
+  rename(control=treatment)
+
+
+df %>%
+  filter(end_status=="cocoon")%>%
+  ggplot(aes(x=days_to_event))+
+  geom_density(aes(fill=treatment), alpha=.4)+
+  geom_density(data=only_control, aes(fill=control), alpha =.2)+
+  facet_wrap(~treatment)+
+  guides(fill="none")
+```
+This is a density graph showing the time until cocoon completion (only showing bees that survived). The development time of control bees is overlayed onto each other treatment.
 
 
 ``` {r kruskal wallis}
