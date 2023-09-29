@@ -85,6 +85,8 @@ time_to_cocoon <- df %>%
   geom_boxplot()
 
 ```
+
+
 ```{r time of development}
 
 only_control<-df %>%
@@ -99,6 +101,20 @@ df %>%
   geom_density(data=only_control, aes(fill=control), alpha =.2)+
   facet_wrap(~treatment)+
   guides(fill="none")
+
+dev_time<- df %>%
+  filter(end_status=="cocoon")%>%
+  ggplot(aes(x=splits, y=days_to_event, color = splits))+
+  geom_boxplot()+ 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+dev_time
+
+ggsave(dev_time, file = output/graphs/dev_time.svg)
+
+df %>%
+  filter(end_status=="cocoon")%>%
+  dunn_test(days_to_event~treatment)
+
 ```
 This is a density graph showing the time until cocoon completion (only showing bees that survived). The development time of control bees is overlayed onto each other treatment.
 
