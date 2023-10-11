@@ -23,13 +23,15 @@ library(survminer)
 library(coxme)
 library(survival)
 library(gtsummary)
+library(rcompanion) # way to easily get letter groupings for pairwise tests
+library(DescTools) # for dunnets test
 
 ```
 
 ## 2023 osmia bioassay 
 
 
-```{r data}
+```{r data, echo=FALSE}
 
 df <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_rows = TRUE)%>%
   filter(!end_date == "remove")%>%
@@ -45,11 +47,12 @@ df <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_rows = 
       )
     ) %>%
   mutate(days_to_event = end_date-start_date) %>% # calculate the days in assay until cocoon or death
-  mutate(treatment=relevel(treatment,ref="Osmia pollen (control)")) %>% # make osmia control first level 
+  mutate(treatment=relevel(treatment, ref="Osmia pollen (control)"),) %>% # make osmia control first level 
   mutate(day = as.factor(day),
          plate_num = as.factor(plate_num))%>%
-  mutate(days_to_death = if_else(end_status == "dead", days_to_event, max(days_to_event))) # i need to make a column where survivors live until the last check point, not just to cocoon
- 
+  mutate(days_to_death = if_else(end_status == "dead", days_to_event, max(days_to_event))) %>% # i need to make a column where survivors live until the last check point, not just to cocoon
+  mutate(days_to_death = as.numeric(days_to_death),
+         days_to_event = as.numeric(days_to_event))# and finally fix difftime to num
 head(df)
 
 ```
@@ -59,7 +62,7 @@ metadata :
 
 
 now lets just make a quick summary of 
-``` {r summary graph}
+``` {r summary graphs of death}
 
 prop_death <- df %>%
   ggplot()+
@@ -76,18 +79,42 @@ time_to_death <- df %>%
   ggplot(aes(x=splits, y = days_to_event, color = splits))+
   geom_point()+
   geom_boxplot()
-
-# how long it took each treatment to cocoon
-time_to_cocoon <- df %>%
-  filter(end_status == "cocoon") %>%
-  ggplot(aes(x=splits, y = days_to_event, color = splits))+
-  geom_point()+
-  geom_boxplot()
+time_to_death
 
 ```
 
+This is a density graph showing the time until cocoon completion (only showing bees that survived). The development time of control bees is overlayed onto each other treatment.
 
-```{r time of development}
+
+```{r time of development boxplot}
+
+
+dev_time<- df %>%
+  filter(end_status=="cocoon")%>%
+  ggplot(aes(x=treatment, y=days_to_event, color = treatment))+
+  geom_boxplot()+ 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  theme_bw()
+
+dev_time
+
+ggsave(dev_time, file = "output/graphs/test.svg", width = 7, height = 8)
+
+
+dunntest_dev<-df %>%
+  filter(end_status=="cocoon")%>%
+  dunn_test(days_to_event~treatment)%>%
+  unite(comparison, c(group1, group2), sep = "-")
+dunntest_dev
+
+dev_time_letters = cldList(p.adj ~ comparison, data=dunntest_dev)
+dev_time_letters
+
+```
+This shows the differences in development time for the larvae that did successfully spin a cocoon
+
+
+```{r time of dev density dunnets}
 
 only_control<-df %>%
   filter(end_status=="cocoon", treatment=="Osmia pollen (control)")%>%
@@ -100,23 +127,18 @@ df %>%
   geom_density(aes(fill=treatment), alpha=.4)+
   geom_density(data=only_control, aes(fill=control), alpha =.2)+
   facet_wrap(~treatment)+
-  guides(fill="none")
+  guides(fill="none")+
+  theme_bw()
 
-dev_time<- df %>%
+dunnet_dev<-df %>%
   filter(end_status=="cocoon")%>%
-  ggplot(aes(x=splits, y=days_to_event, color = splits))+
-  geom_boxplot()+ 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-dev_time
+  DunnettTest(data=., days_to_event~treatment)
 
-ggsave(dev_time, file = output/graphs/dev_time.svg)
+dunnet_dev
 
-df %>%
-  filter(end_status=="cocoon")%>%
-  dunn_test(days_to_event~treatment)
 
 ```
-This is a density graph showing the time until cocoon completion (only showing bees that survived). The development time of control bees is overlayed onto each other treatment.
+However when running a dunnetts test to just compare each treatment against the control, all developed significantly slower except "osmia with high antibiotics"
 
 
 ``` {r kruskal wallis}
