@@ -232,6 +232,38 @@ autoplot(aa_fit)
 
 
 
+```{r graphs for atkinson application, include = FALSE}
+
+
+
+only_control<-df %>%
+  filter(end_status=="cocoon", treatment=="Osmia pollen (control)")%>%
+  rename(control=treatment)
+
+
+df %>%
+  filter(end_status=="cocoon", treatment %in% c("Osmia pollen (control)", "Osmia pollen with high antibiotics","Sterilized Osmia pollen", "Sterilized Osmia pollen with high antibiotics"))%>%
+  ggplot(aes(x=days_to_event))+
+  geom_density(aes(fill=treatment), alpha=.4)+
+  geom_density(data=only_control, aes(fill=control), alpha =.2)+
+  facet_wrap(~treatment)+
+  guides(fill="none")+
+  theme_bw()
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
 
 
 
