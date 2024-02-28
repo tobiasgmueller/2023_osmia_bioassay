@@ -1,0 +1,28 @@
+sample_id,day,treat_num,treatment,source,empty,part_empty,part_full,full,total_count
+d1t1,1,1,Osmia pollen (control),osmia,5,1,1,93,100
+d1t2,1,2,Osmia pollen with high antibiotics,osmia,7,0,4,89,100
+d1t3,1,3,Honeybee pollen,honeybee,20,6,9,65,100
+d1t4,1,4,Honeybee pollen with Osmia microbe wash,honeybee,6,6,0,88,100
+d1t5,1,5,Sterilized Osmia pollen,osmia,6,0,0,94,100
+d1t6,1,6,Sterilized Osmia pollen with high antibiotics,osmia,12,0,2,86,100
+d1t7,1,7,Sterilized Osmia pollen with Osmia microbe wash,osmia,7,2,0,91,100
+d1t8,1,8,Sterilized honeybee pollen,honeybee,4,4,2,90,100
+d1t9,1,9,Sterilized honeybee pollen with Osmia microbe wash,honeybee,8,3,0,89,100
+d2t1,2,1,Osmia pollen (control),osmia,9,10,2,79,100
+d2t2,2,2,Osmia pollen with high antibiotics,osmia,3,5,6,86,100
+d2t3,2,3,Honeybee pollen,honeybee,15,0,3,82,100
+d2t4,2,4,Honeybee pollen with Osmia microbe wash,honeybee,10,2,8,80,100
+d2t5,2,5,Sterilized Osmia pollen,osmia,8,0,24,68,100
+d2t6,2,6,Sterilized Osmia pollen with high antibiotics,osmia,8,1,5,86,100
+d2t7,2,7,Sterilized Osmia pollen with Osmia microbe wash,osmia,11,3,13,73,100
+d2t8,2,8,Sterilized honeybee pollen,honeybee,15,1,4,80,100
+d2t9,2,9,Sterilized honeybee pollen with Osmia microbe wash,honeybee,7,2,2,89,100
+d3t1,3,1,Osmia pollen (control),osmia,19,5,13,63,100
+d3t2,3,2,Osmia pollen with high antibiotics,osmia,12,4,4,80,100
+d3t3,3,3,Honeybee pollen,honeybee,11,0,2,87,100
+d3t4,3,4,Honeybee pollen with Osmia microbe wash,honeybee,8,4,0,88,100
+d3t5,3,5,Sterilized Osmia pollen,osmia,9,1,9,81,100
+d3t6,3,6,Sterilized Osmia pollen with high antibiotics,osmia,6,4,7,83,100
+d3t7,3,7,Sterilized Osmia pollen with Osmia microbe wash,osmia,4,3,5,88,100
+d3t8,3,8,Sterilized honeybee pollen,honeybee,9,2,1,88,100
+d3t9,3,9,Sterilized honeybee pollen with Osmia microbe wash,honeybee,12,0,1,87,100
