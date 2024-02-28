@@ -246,6 +246,7 @@ autoplot(aa_fit)
 
 
 
+<<<<<<< HEAD
 # pollen staining
 ```{r pollen staining}
 
@@ -257,15 +258,10 @@ pollen_pre <- read_csv("input/pre_digested_pollen.csv")%>%
          treatment= factor(treatment),
          source= factor(source))
 
-
-
-
 pollen_pre %>%
   ggplot()+
   geom_boxplot(aes(x=day, y=full, color= treatment))+
   facet_wrap(~source)
-
-
 
 
 
