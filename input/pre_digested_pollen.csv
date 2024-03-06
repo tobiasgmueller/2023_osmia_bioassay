@@ -1,4 +1,4 @@
-sample_id,day,treat_num,treatment,source,empty,part_empty,part_full,full,total_count
+sample_id,day,treat_num,treatment,source,0,1-49,50-99,100,total
 d1t1,1,1,Osmia pollen (control),osmia,5,1,1,93,100
 d1t2,1,2,Osmia pollen with high antibiotics,osmia,7,0,4,89,100
 d1t3,1,3,Honeybee pollen,honeybee,20,6,9,65,100

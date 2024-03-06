@@ -1,4 +1,4 @@
-date_stained,date_checked,person_counting,sample_id,0,1-49,50-99,100,Total Counted,notes
+date_stained,date_checked,person_counting,sample_id,0,1-49,50-99,100,total,notes
 11/30,12/7,Emily,1-1-a1,3,59,38,0,100,Used tap water instead of DI Water 😬
 11/30,12/7,Emily ,1-1-a3,3,60,36,1,100,^^^
 11/30,12/7,Emily,1-1-a5,26,56,18,0,100,^^^ Alot of pollen with wierd shapes. They all have yellow on them and are very spikey
@@ -15,7 +15,7 @@ date_stained,date_checked,person_counting,sample_id,0,1-49,50-99,100,Total Count
 12/7,12/10,Emily,1-1-e3,2,19,79,0,100,
 12/7,12/10,Emily,1-1-e5,5,48,44,3,100,
 12/7,12/10,Emily,1-1-e7,2,37,61,0,100,
-,12/10,Emily,1-1-e9,24,39,37,0,100,"a lot of the 0 was dandilion pollen, which is hard to read"
+12/7,12/10,Emily,1-1-e9,24,39,37,0,100,"a lot of the 0 was dandilion pollen, which is hard to read"
 12/7,NA,,1-1-e11,,,,,0,
 12/8,12/10,Emily,1-1-g1,5,70,25,0,100,
 12/8,12/10,Emily,1-1-g3,1,67,32,0,100,
@@ -63,32 +63,32 @@ date_stained,date_checked,person_counting,sample_id,0,1-49,50-99,100,Total Count
 12/8,12/13,Emily,1-3-e3,41,45,14,0,100,
 12/8,12/13,Emily,1-3-e5,20,34,46,0,100,
 12/8,12/13,Emily,1-3-e7,3,94,3,0,100,
-12/13,,,1-3-e9,,,,,0,
-12/13,,,1-3-e11,,,,,0,
-12/13,,,1-3-g1,,,,,0,
-12/13,,,1-3-g3,,,,,0,
-12/13,,,1-3-g5,,,,,0,
-12/13,,,1-3-g7,,,,,0,
-12/13,,,1-3-g9,,,,,0,
-12/13,,,1-3-g11,,,,,0,
-12/13,,,1-4-a1,,,,,0,
-12/13,,,1-4-a3,,,,,0,
-12/13,,,1-4-a5,,,,,0,
-12/13,,,1-4-a7,,,,,0,
-12/13,,,1-4-a9,,,,,0,
+12/13,12/16,Emily,1-3-e9,0,90,10,0,100,
+12/13,12/16,Emily,1-3-e11,41,48,8,3,100,
+12/13,12/16,Emily,1-3-g1,3,60,37,0,100,
+12/13,12/16,Emily ,1-3-g3,3,56,39,2,100,
+12/13,12/16,Emily,1-3-g5,3,30,67,0,100,
+12/13,12/16,Emily,1-3-g7,1,11,88,0,100,
+12/13,12/16,Emily,1-3-g9,9,55,36,0,100,
+12/13,12/16,Emily,1-3-g11,2,62,35,1,100,
+12/13,12/16,Emily,1-4-a1,0,96,4,0,100,There were a lot of speckled ones I counted as 1-49 but would have been 50-99 if filled in 
+12/13,12/16,Emily,1-4-a3,5,85,9,1,100,^^
+12/13,12/16,Emily,1-4-a5,16,55,29,0,100,
+12/13,12/16,Emily,1-4-a7,8,57,35,0,100,
+12/13,12/16,Emily,1-4-a9,1,52,45,2,100,
 12/13,NA,,1-4-a11,,,,,0,overflowing with mites - couldnt get clean frass
 12/13,NA,,1-4-c1,,,,,0,overflowing with mites - couldnt get clean frass
-12/13,,,1-4-c3,,,,,0,
+12/13,12/16,Emily,1-4-c3,13,38,49,0,100,
 12/13,NA,,1-4-c5,,,,,0,no frass
-12/13,,,1-4-c7,,,,,0,
-12/13,,,1-4-c9,,,,,0,
-12/13,,,1-4-c11,,,,,0,
-12/13,,,1-4-e1,,,,,0,
-12/13,,,1-4-e3,,,,,0,
+12/13,12/16,Emily,1-4-c7,0,79,21,0,100,
+12/13,12/16,Emily,1-4-c9,3,83,14,0,100,
+12/13,12/16,Emily ,1-4-c11,8,45,46,1,100,
+12/13,12/16,Emily ,1-4-e1,7,49,41,3,100,
+12/13,12/16,Emily,1-4-e3,1,39,52,8,100,
 12/13,NA,,1-4-e5,,,,,0,overflowing with mites
 12/13,NA,,1-4-e7,,,,,0,overflowing with mites
-12/13,,,1-4-e9,,,,,0,
-12/13,,,1-4-e11,,,,,0,
+12/13,12/16,Emily,1-4-e9,13,48,38,1,100,
+12/13,12/16,,1-4-e11,13,50,36,1,100,
 9/21,9/28/23,Tobias,2-1-a1,90,102,8,1,201,used 10ul of pollen and stain
 9/21,9/28/23,Tobias,2-1-a3,93,100,7,0,200,used 10ul of pollen and stain
 9/21,9/28/23,Emily,2-1-a5,92,78,27,3,200,used 10ul of pollen and stain

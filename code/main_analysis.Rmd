@@ -26,14 +26,14 @@ library(gtsummary)
 library(rcompanion) # way to easily get letter groupings for pairwise tests
 library(DescTools) # for dunnets test
 
+rm(list=ls())
 ```
 
 ## 2023 osmia bioassay 
 
 
-```{r data, echo=FALSE}
+```{r data survival, echo=FALSE}
 
-rm(list=ls())
 
 survival <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_rows = TRUE)%>%
   filter(!end_date == "remove")%>%
@@ -41,7 +41,7 @@ survival <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_r
          start_date= as.Date(start_date, format= "%Y/%m/%d"), # make date a date
          status = if_else(end_status == "dead", 1, 0))%>% # add 0 and 1 status for survival analysis
   mutate_if(is.character, factor)%>% # change other chr to factors
-    mutate( # make a column of treatment names with line breaks for better graph labels
+  mutate( # make a column of treatment names with line breaks for better graph labels
       splits = if_else( 
         str_count(treatment, '\\S+') > 2,
         str_c(word(treatment,1,1), word(treatment,2,str_count(treatment,'\\S+')), sep = '\n'),
@@ -54,31 +54,65 @@ survival <- read_csv("input/2023_bioassay_datasheets_combined.csv", skip_empty_r
          plate_num = as.factor(plate_num))%>%
   mutate(days_to_death = if_else(end_status == "dead", days_to_event, max(days_to_event))) %>% # i need to make a column where survivors live until the last check point, not just to cocoon
   mutate(days_to_death = as.numeric(days_to_death),
-         days_to_event = as.numeric(days_to_event))# and finally fix difftime to num
+         days_to_event = as.numeric(days_to_event))# and finally fix difftime to numeric
 
 
-
+#load pollen staining data
 p_stain <- read_csv("input/pollen_staining.csv") %>% #read in pollen staining data
-  mutate_if(is.character, factor) # change other chr to factors
+  mutate_if(is.character, factor)%>% # change other chr to factors
+  drop_na(date_checked) %>% # drop wells with no frass
+  mutate(per_empty = ((`0`+`1-49`)/total)*100)
+         # per_full = ((`50-99`+`100`)/total)*100,
+         # per_zero = (`0`/total)*100) #adjust counts into percents
+
+# combine with survival and treatment data
+pollen_survival <- left_join(survival, p_stain)
+
+
+# then also load pre digestion pollen staining to correct digestion percent
+pre_stain <- read_csv("input/pre_digested_pollen.csv") %>% #read in pollen staining data
+  mutate_if(is.character, factor)%>% # change other chr to factors
+  mutate(day = as.factor(day))%>%
+  mutate(per_empty_pre = ((`0`+`1-49`)/total)*100) %>%
+         # per_full_pre = ((`50-99`+`100`)/total)*100,
+         # per_zero_pre = (`0`/total)*100)%>% #adjust counts into percents
+  select(-c(sample_id,treat_num,`0`,`1-49`,`50-99`,`100`,total))
+
+# now merge pre stain with combined data and correct for pre digestion viability
+# formula adapted from Understanding pollen specialization in mason bees: a case study of six species
+# by Megan K. McAulay· Saf Z. Killingsworth· Jessica R. K. Forrest
+
+combined <- left_join(pollen_survival, pre_stain)%>%
+  mutate(per_empty_cor = (((per_empty - per_empty_pre)/(100-per_empty_pre))*100))%>%
+  select(-c(per_empty,  #clean up some columns I wont need
+            per_empty_pre, 
+            `0`,
+            `1-49`,
+            `50-99`,
+            `100`,
+            total, 
+            date_stained,
+            date_checked, 
+            person_counting, 
+            notes))
+
+
+```
+
+
+``` {r pollen staining data, echo = FALSE}
+
+
 
 # then merge the two using sample_id
 
 
-df <- survival%>%
-  left_join(p_stain, by = "sample_id")
-
-
-
 ```
-metadata :
-  - 
-
-
 
 now lets just make a quick summary of 
 ``` {r summary graphs of death}
 
-prop_death <- df %>%
+prop_death <- combined %>%
   ggplot()+
   geom_bar(aes(x=treatment, fill=end_status), position = "fill")+
   ggtitle("break down of death")+
@@ -88,7 +122,7 @@ prop_death
 
 
 # how long it took each treatment to die
-time_to_death <- df %>%
+time_to_death <- combined %>%
   filter(end_status == "dead") %>%
   ggplot(aes(x=splits, y = days_to_event, color = splits))+
   geom_point()+
@@ -103,7 +137,7 @@ This is a density graph showing the time until cocoon completion (only showing b
 ```{r time of development boxplot}
 
 
-dev_time<- df %>%
+dev_time<- combined %>%
   filter(end_status=="cocoon")%>%
   ggplot(aes(x=treatment, y=days_to_event, color = treatment))+
   geom_boxplot()+ 
@@ -115,7 +149,7 @@ dev_time
 ggsave(dev_time, file = "output/graphs/test.svg", width = 7, height = 8)
 
 
-dunntest_dev<-df %>%
+dunntest_dev<-combined %>%
   filter(end_status=="cocoon")%>%
   dunn_test(days_to_event~treatment)%>%
   unite(comparison, c(group1, group2), sep = "-")
@@ -130,12 +164,12 @@ This shows the differences in development time for the larvae that did successfu
 
 ```{r time of dev density dunnets}
 
-only_control<-df %>%
+only_control<-combined %>%
   filter(end_status=="cocoon", treatment=="Osmia pollen (control)")%>%
   rename(control=treatment)
 
 
-df %>%
+combined %>%
   filter(end_status=="cocoon")%>%
   ggplot(aes(x=days_to_event))+
   geom_density(aes(fill=treatment), alpha=.4)+
@@ -144,7 +178,7 @@ df %>%
   guides(fill="none")+
   theme_bw()
 
-dunnet_dev<-df %>%
+dunnet_dev<-combined %>%
   filter(end_status=="cocoon")%>%
   DunnettTest(data=., days_to_event~treatment)
 
@@ -157,11 +191,11 @@ However when running a dunnetts test to just compare each treatment against the 
 
 ``` {r kruskal wallis}
 
-df %>%
+combined %>%
   kruskal_test(end_status ~ treatment)
 
 
-df %>%
+combined %>%
   dunn_test(end_status ~ treatment, p.adjust.method = "holm")
 
 ```
@@ -170,21 +204,21 @@ df %>%
 
 no difference in survival across sex
 ```{r survival analysis KM}
-km_sex <- survfit(Surv(days_to_death, status) ~ sex, data=df)
-ggsurvplot(km_sex, data = df, pval = TRUE)
+km_sex <- survfit(Surv(days_to_death, status) ~ sex, data=combined)
+ggsurvplot(km_sex, data = combined, pval = TRUE)
 
 
 
-km_day <- survfit(Surv(days_to_death, status) ~ day, data=df)
-ggsurvplot(km_day, data = df, pval = TRUE)
+km_day <- survfit(Surv(days_to_death, status) ~ day, data=combined)
+ggsurvplot(km_day, data = combined, pval = TRUE)
 
 
 
 # with all trials
-km_treatment <- survfit(Surv(days_to_death, status) ~ treatment, data=df)
+km_treatment <- survfit(Surv(days_to_death, status) ~ treatment, data=combined)
 summary(km_treatment, times = c(1,5*(1:12)))
 
-gg<-ggsurvplot(km_treatment, data = df, pval = TRUE,
+gg<-ggsurvplot(km_treatment, data = combined, pval = TRUE,
            legend = "right",
            conf.int = TRUE,
            conf.int.style = "step",
@@ -192,7 +226,7 @@ gg<-ggsurvplot(km_treatment, data = df, pval = TRUE,
            surv.median.line = "hv")
 
 
-pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df, p.adjust.method = "BH", rho = 0)
+pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=combined, p.adjust.method = "BH", rho = 0)
 
 
 ```
@@ -201,7 +235,7 @@ pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df, p.adjust.met
 Now do the same removing day 1
 
 ```{r survival analysis KM - days 2and3}
-df23<- df %>%
+df23<- combined %>%
   filter(day != 1)
 
 km_sex23 <- survfit(Surv(days_to_death, status) ~ sex, data=df23)
@@ -231,14 +265,14 @@ pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df23, p.adjust.m
 ```{r survival cox}
 
 
-  coxph(Surv(days_to_death, status) ~ treatment, data = df) %>% 
+  coxph(Surv(days_to_death, status) ~ treatment, data = combined) %>% 
     tbl_regression(exp = TRUE) 
 
 ```
 
 
 ```{r cox split by variable}
-aa_fit <-aareg(Surv(days_to_death) ~ treatment + sex + stage + day, data = df)
+aa_fit <-aareg(Surv(days_to_death) ~ treatment + sex + stage + day, data = combined)
 
 autoplot(aa_fit)
 ```
@@ -246,29 +280,25 @@ autoplot(aa_fit)
 
 
 
-<<<<<<< HEAD
 # pollen staining
 ```{r pollen staining}
 
 #first explore if pollen pre digestion is different across treatments
-
-
-pollen_pre <- read_csv("input/pre_digested_pollen.csv")%>%
-  mutate(day = factor(day),
-         treatment= factor(treatment),
-         source= factor(source))
-
-pollen_pre %>%
+combined %>%
   ggplot()+
-  geom_boxplot(aes(x=day, y=full, color= treatment))+
-  facet_wrap(~source)
+  geom_boxplot(aes(x=source, y=per_empty_cor, color= treatment))
 
+combined %>% 
+  kruskal_test(per_empty_cor~treatment)
 
-
-
-
+combined %>% 
+  dunn_test(per_empty_cor~treatment)%>%
+  unite(comparison, c(group1, group2), sep = "-")%>%
+  cldList(p.adj ~ comparison, data = .)
 ```
+Here higher percent empty corrected (y axis) indicated better digestion ability
 
 
+so antibiotics don't interfere with digestion ability but sterilization or pollen switching does. Re-addition of (some) microbes to pollen provision does not negate these impacts. 
 
 
