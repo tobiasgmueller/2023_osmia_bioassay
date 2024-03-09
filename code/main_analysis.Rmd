@@ -295,6 +295,15 @@ combined %>%
   dunn_test(per_empty_cor~treatment)%>%
   unite(comparison, c(group1, group2), sep = "-")%>%
   cldList(p.adj ~ comparison, data = .)
+
+# then quickly out of curiosity just HB control and mason bee control
+
+combined %>% 
+  filter(treatment %in% c("Osmia pollen (control)", "Honeybee pollen")) %>%
+  dunn_test(per_empty_cor~treatment)%>%
+  unite(comparison, c(group1, group2), sep = "-")%>%
+  cldList(p.adj ~ comparison, data = .)
+
 ```
 Here higher percent empty corrected (y axis) indicated better digestion ability
 
