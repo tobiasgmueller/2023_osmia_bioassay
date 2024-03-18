@@ -99,16 +99,6 @@ combined <- left_join(pollen_survival, pre_stain)%>%
 
 ```
 
-
-``` {r pollen staining data, echo = FALSE}
-
-
-
-# then merge the two using sample_id
-
-
-```
-
 now lets just make a quick summary of 
 ``` {r summary graphs of death}
 
@@ -121,17 +111,41 @@ prop_death <- combined %>%
 prop_death
 
 
+test<- glm(data=combined, end_status~treatment, family = binomial)
+
+
 # how long it took each treatment to die
 time_to_death <- combined %>%
   filter(end_status == "dead") %>%
-  ggplot(aes(x=splits, y = days_to_event, color = splits))+
-  geom_point()+
-  geom_boxplot()
+  ggplot(aes(x=splits, y = days_to_event, fill = splits))+
+  geom_boxplot()+
+  theme_bw()+
+  scale_color_manual(values=c("#5FAEDA","#487761","#D04B07","#5F1C3B","#a46598","#A3D693","#7ED4C5"))+
+  scale_fill_manual(values=c( "#5FAEDA","#487761","#D04B07","#5F1C3B","#a46598","#A3D693","#7ED4C5"))
+
 time_to_death
 
 ```
 
-This is a density graph showing the time until cocoon completion (only showing bees that survived). The development time of control bees is overlayed onto each other treatment.
+
+```{r time of death density }
+
+combined %>%
+  filter(end_status=="dead")%>%
+  ggplot(aes(x=days_to_event))+
+  geom_density(aes(fill=treatment), alpha=.4)+
+  geom_density(data=only_control, aes(fill=control), alpha =.2)+
+  facet_wrap(~treatment)+
+  guides(fill="none")+
+  theme_bw()
+
+```
+
+
+
+
+
+below is a density graph showing the time until cocoon completion (only showing bees that survived). The development time of control bees is overlayed onto each other treatment.
 
 
 ```{r time of development boxplot}
@@ -139,14 +153,14 @@ This is a density graph showing the time until cocoon completion (only showing b
 
 dev_time<- combined %>%
   filter(end_status=="cocoon")%>%
-  ggplot(aes(x=treatment, y=days_to_event, color = treatment))+
+  ggplot(aes(x=treatment, y=days_to_event, fill=treatment))+
   geom_boxplot()+ 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  theme_bw()
+  theme_bw()+
+  scale_color_manual(values=c("#FFC543", "#5FAEDA","#487761","#3A27CE","#D04B07","#5F1C3B","#a46598","#A3D693","#7ED4C5"))+
+  scale_fill_manual(values=c("#FFC543", "#5FAEDA","#487761","#3A27CE","#D04B07","#5F1C3B","#a46598","#A3D693","#7ED4C5"))
 
 dev_time
-
-ggsave(dev_time, file = "output/graphs/test.svg", width = 7, height = 8)
 
 
 dunntest_dev<-combined %>%
@@ -187,6 +201,27 @@ dunnet_dev
 
 ```
 However when running a dunnetts test to just compare each treatment against the control, all developed significantly slower except "osmia with high antibiotics"
+
+
+```{r cocoon and death density}
+
+ death <- combined %>%
+  filter(end_status=="dead")
+
+ cocoon <- combined %>%
+  filter(end_status=="cocoon")
+
+combined %>%
+  ggplot(aes(x=days_to_event))+
+  geom_density(data = death, fill = "red", alpha=.4)+
+  geom_density(data= cocoon, fill="blue", alpha =.2)+
+  facet_wrap(~treatment)+
+  guides(fill="none")+
+  theme_bw()
+
+```
+
+
 
 
 ``` {r kruskal wallis}
@@ -256,6 +291,7 @@ gg23<-ggsurvplot(km_treatment23, data = df23, pval = TRUE,
            conf.int.style = "step",
            conf.int.alpha = .09,
            surv.median.line = "hv")
+gg23
 
 pairwise_survdiff(Surv(days_to_death, status) ~ treatment, data=df23, p.adjust.method = "BH", rho = 0)
 
