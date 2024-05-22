@@ -31,6 +31,7 @@ allOrients <- function(primer) {
 
 
 
+
 # set path to fastq files
 path <- "sequencing_results/16S"  
 list.files(path)
@@ -168,13 +169,55 @@ names(derepRs) <- sample.names
 
 
 # sample inference
-dadaFs <- dada(derepFs, err=errF, multithread=FALSE)
-dadaRs <- dada(derepRs, err=errR, multithread=FALSE)
+dadaFs <- dada(derepFs, err=errF, multithread=FALSE, pool="pseudo")
+
+dadaRs <- dada(derepRs, err=errR, multithread=FALSE, pool="pseudo")
 
 
 # inspect that it went okay
 dadaFs[[1]]
+dadaRs[[1]]
 
+
+#Merge paird reads ####
+
+mergers <- mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE)
+# Inspect the merger data.frame from the first sample
+head(mergers[[1]])
+
+
+
+
+# construct ASV table ####
+
+seqtab <- makeSequenceTable(mergers)
+
+dim(seqtab)
+
+table(nchar(getSequences(seqtab)))
+
+
+
+
+# remove chimeras ####
+
+seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
+dim(seqtab.nochim)
+
+# percent of merged sequence reads that are chimeras
+sum(seqtab.nochim)/sum(seqtab)
+
+
+
+
+# track reads through pipeline ####
+
+getN <- function(x) sum(getUniques(x))
+track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
+
+colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
+rownames(track) <- sample.names
+head(track)
 
 
 
