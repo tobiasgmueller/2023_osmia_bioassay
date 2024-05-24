@@ -5,9 +5,9 @@
 #install code for dada 2
 
 # ## try http:// if https:// URLs are not supported
-# if (!requireNamespace("BiocManager", quietly=TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install("dada2")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("dada2")
 
 
 #load packages and functions
@@ -17,17 +17,6 @@ library(ShortRead)
 packageVersion("ShortRead")
 library(Biostrings)
 packageVersion("Biostrings")
-
-# function to find complements of DNA strings
-allOrients <- function(primer) {
-    # Create all orientations of the input sequence
-    require(Biostrings)
-    dna <- DNAString(primer)  # The Biostrings works w/ DNAString objects rather than character vectors
-    orients <- c(Forward = dna, Complement = Biostrings::complement(dna), Reverse = Biostrings::reverse(dna),
-        RevComp = Biostrings::reverseComplement(dna))
-    return(sapply(orients, toString))  # Convert back to character vector
-}
-
 
 
 
@@ -44,6 +33,16 @@ fnRs <- sort(list.files(path, pattern = "_R2.fastq.gz", full.names = TRUE))
 FWD <- "CMGGATTAGATACCCKGG"  ## 799F
 REV <- "AGGGTTGCGCTCGTTG"  ## 1115R
 
+# function to find complements of DNA strings
+allOrients <- function(primer) {
+    # Create all orientations of the input sequence
+    require(Biostrings)
+    dna <- DNAString(primer)  # The Biostrings works w/ DNAString objects rather than character vectors
+    orients <- c(Forward = dna, Complement = Biostrings::complement(dna), Reverse = Biostrings::reverse(dna),
+        RevComp = Biostrings::reverseComplement(dna))
+    return(sapply(orients, toString))  # Convert back to character vector
+}
+
 # find all complements of primers
 FWD.orients <- allOrients(FWD)
 REV.orients <- allOrients(REV)
@@ -54,6 +53,8 @@ fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) # Put N-filtered files in
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 
 filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = FALSE)
+
+
 
 
 
@@ -169,9 +170,9 @@ names(derepRs) <- sample.names
 
 
 # sample inference
-dadaFs <- dada(derepFs, err=errF, multithread=FALSE, pool="pseudo")
+dadaFs <- dada(derepFs, err=errF, multithread=TRUE, pool="pseudo")
 
-dadaRs <- dada(derepRs, err=errR, multithread=FALSE, pool="pseudo")
+dadaRs <- dada(derepRs, err=errR, multithread=TRUE, pool="pseudo")
 
 
 # inspect that it went okay
@@ -218,6 +219,41 @@ track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, 
 colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
 rownames(track) <- sample.names
 head(track)
+
+
+
+#assign taxonomy
+# using SILVA 138.1 @ https://zenodo.org/records/4587955
+
+
+taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/tax/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
+
+#then add species based on exact taxonomic matching
+taxa <- addSpecies(taxa, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz")
+
+
+# look at taxanomic assignments
+taxa.print <- taxa # Removing sequence rownames for display only
+rownames(taxa.print) <- NULL
+head(taxa.print)
+
+
+
+
+
+
+
+
+
+#then for now we'll save them
+saveRDS(taxa, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
+
+saveRDS(seqtab.nochim, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/seqtab_nochim.rds")
+
+# Restart as necessary
+#taxa <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
+#seqtab.nochim <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/seqtab_nochim.rds")
+
 
 
 
