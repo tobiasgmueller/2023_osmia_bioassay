@@ -14,8 +14,8 @@ library(tidyverse)
 
 # read in dada2 16s pipeline output 
 
-taxa <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
-seqtab.nochim <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/seqtab_nochim.rds")
+taxa <- readRDS("input/processed_sequences/16s/taxa.rds")
+seqtab.nochim <- readRDS("input/processed_sequences/16s/seqtab_nochim.rds")
 
 
 # prep df about samples with id as the row names

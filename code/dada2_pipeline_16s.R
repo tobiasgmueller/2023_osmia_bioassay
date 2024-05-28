@@ -246,9 +246,9 @@ head(taxa.print)
 
 
 #then for now we'll save them
-saveRDS(taxa, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
+saveRDS(taxa, "input/processed_sequences/16s/taxa.rds")
 
-saveRDS(seqtab.nochim, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/seqtab_nochim.rds")
+saveRDS(seqtab.nochim, "input/processed_sequences/16s/seqtab_nochim.rds")
 
 # Restart as necessary
 #taxa <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
