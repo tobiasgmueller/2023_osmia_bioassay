@@ -96,12 +96,11 @@ R2.flags <- paste("-G", REV, "-A", FWD.RC)
 # Run Cutadapt
 for(i in seq_along(fnFs)) {
   system2(cutadapt, args = c(R1.flags, R2.flags,
-                             "-m",20, # drop reads shorter than 20 to remove 0 length reads
+                             "-m", 20, # drop reads shorter than 20 to remove 0 length reads
                              "-n", 2, # -n 2 required to remove FWD and REV from reads
                              "-o", fnFs.cut[i], "-p", fnRs.cut[i], # output files
                              fnFs.filtN[i], fnRs.filtN[i])) # input files
 }
-
 
 #check that cutting worked
 rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.cut[[1]]), FWD.ReverseReads = sapply(FWD.orients,
@@ -127,6 +126,9 @@ plotQualityProfile(cutRs[1:2])
 
 ShortRead::readFastq(cutFs[1])
 ShortRead::readFastq(cutRs[1])
+
+
+
 
 
 

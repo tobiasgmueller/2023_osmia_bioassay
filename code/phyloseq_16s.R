@@ -17,6 +17,10 @@ library(tidyverse)
 taxa <- readRDS("input/processed_sequences/16s/taxa.rds")
 seqtab.nochim <- readRDS("input/processed_sequences/16s/seqtab_nochim.rds")
 
+taxa <- readRDS("input/processed_sequences/ITS/ITS_taxa_t.rds")
+seqtab.nochim <- readRDS("input/processed_sequences/ITS/seqtab_nochim_t.rds")
+
+
 
 # prep df about samples with id as the row names
 samdf <- read_csv("sequencing_results/sequence_metadata.csv")%>%
@@ -58,7 +62,6 @@ write.table(tax_table(ps),
 write.table(t(otu_table(ps)),
             "sequencing_results/16s/tables/full_seq_table.txt",
             sep="\t", quote = FALSE, col.names=NA)
-
 
 
 
@@ -122,3 +125,11 @@ plot_bar(ps.top20, x="treatment", fill="Family") + facet_wrap(~day, scales="free
 
 
 plot_bar(ps.top20, x="treatment", fill="Genus") 
+
+
+
+
+
+
+
+
