@@ -1,0 +1,76 @@
+---
+title: "ITS_analysis"
+author: "Tobias"
+date: "2024-05-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#this sets wd to root dir
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+
+# read in packages
+if(!requireNamespace("BiocManager")){
+  install.packages("BiocManager")
+}
+
+if(!requireNamespace("phyloseq")){
+  install.packages("phyloseq")
+}
+
+library(phyloseq); packageVersion("phyloseq")
+library(tidyverse)
+
+
+```
+
+
+```{r read in data}
+ps <- readRDS("input/processed_sequences/ITS/ps_ITS.rds")
+  
+  
+  
+```
+
+
+
+File for exploring and analyzing ITS sequences. These were processed through DADA2 pipeline and saved as a phyloseq object
+
+```{r richness plot}
+
+
+
+# plot richness
+plot_richness(ps, x="treatment", measures=c("Shannon", "Simpson"), color="day")
+
+```
+
+```{r NMDS}
+
+# make an NMDS
+
+ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
+ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
+
+
+plot_ordination(ps.prop, ord.nmds.bray, color="day", title="Bray NMDS")
+
+```
+
+```{r bar chart}
+
+
+# make bar chart
+
+top100 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:100]
+ps.top100 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
+ps.top100 <- prune_taxa(top100, ps.top100)
+plot_bar(ps.top20, x="treatment", fill="Class") + facet_wrap(~day, scales="free_x")
+
+
+plot_bar(ps.top20, x="treatment", fill="Genus") 
+
+```

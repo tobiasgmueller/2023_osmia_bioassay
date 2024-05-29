@@ -6,16 +6,21 @@
 if(!requireNamespace("BiocManager")){
   install.packages("BiocManager")
 }
-BiocManager::install("phyloseq")
+
+if(!requireNamespace("phyloseq")){
+  install.packages("phyloseq")
+}
 
 library(phyloseq); packageVersion("phyloseq")
 library(tidyverse)
 
 
+
 # read in dada2 16s pipeline output 
 
-taxa <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
-seqtab.nochim <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/seqtab_nochim.rds")
+taxa <- readRDS("input/processed_sequences/16s/taxa.rds")
+seqtab.nochim <- readRDS("input/processed_sequences/16s/seqtab_nochim.rds")
+
 
 
 # prep df about samples with id as the row names
@@ -50,13 +55,12 @@ ps
 # write these raw tables
 
 write.table(tax_table(ps),
-            "sequencing_results/16s/tables/full_tax_table.txt",
+            "input/processed_sequences/16s/tables/full_tax_table_16s.txt",
             sep="\t", quote = FALSE, col.names=NA)
 
 write.table(t(otu_table(ps)),
-            "sequencing_results/16s/tables/full_seq_table.txt",
+            "input/processed_sequences/16s/tables/full_seq_table_16s.txt",
             sep="\t", quote = FALSE, col.names=NA)
-
 
 
 
@@ -95,11 +99,13 @@ ps_no_chloro
 # then set that to ps for easy coding
 ps<-ps_no_chloro
 
-# plot richness
-plot_richness(ps, x="treatment", measures=c("Shannon", "Simpson"), color="day")
+
+# then save the phyloseq object
+saveRDS(ps, "input/processed_sequences/16s/ps_16s.rds")
 
 
 
+<<<<<<< HEAD
 # make an NMDS
 
 ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
@@ -136,3 +142,5 @@ plot_heatmap(ps.top20)
 
 
 
+=======
+>>>>>>> 76e5ddd70afc06f49cea234f1130ac9c7115987e
