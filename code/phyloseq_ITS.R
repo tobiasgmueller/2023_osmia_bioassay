@@ -64,34 +64,8 @@ write.table(t(otu_table(ps)),
             sep="\t", quote = FALSE, col.names=NA)
 
 
-
-
-
-# plot richness
-plot_richness(ps, x="treatment", measures=c("Shannon", "Simpson"), color="day")
-
-
-
-# make an NMDS
-
-ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
-ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
-
-
-plot_ordination(ps.prop, ord.nmds.bray, color="day", title="Bray NMDS")
-
-
-
-
-# make bar chart
-
-top100 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:100]
-ps.top100 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
-ps.top100 <- prune_taxa(top100, ps.top100)
-plot_bar(ps.top20, x="treatment", fill="Class") + facet_wrap(~day, scales="free_x")
-
-
-plot_bar(ps.top20, x="treatment", fill="Genus") 
+# then save the phyloseq object
+saveRDS(ps, "input/processed_sequences/ITS/ps_ITS.rds")
 
 
 
