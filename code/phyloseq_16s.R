@@ -55,11 +55,12 @@ ps
 # write these raw tables
 
 write.table(tax_table(ps),
-            "input/processed_sequences/16s/tables/full_tax_table_16s.txt",
+            "input/processed_sequences/16s/full_tax_table_16s.txt",
             sep="\t", quote = FALSE, col.names=NA)
 
+
 write.table(t(otu_table(ps)),
-            "input/processed_sequences/16s/tables/full_seq_table_16s.txt",
+            "input/processed_sequences/16s/full_seq_table_16s.txt",
             sep="\t", quote = FALSE, col.names=NA)
 
 
@@ -103,44 +104,3 @@ ps<-ps_no_chloro
 # then save the phyloseq object
 saveRDS(ps, "input/processed_sequences/16s/ps_16s.rds")
 
-
-
-<<<<<<< HEAD
-# make an NMDS
-
-ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
-ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
-
-
-plot_ordination(ps.prop, ord.nmds.bray, color="day", title="Bray NMDS")
-
-
-
-
-# make bar chart
-top20 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:20]
-ps.top20 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
-ps.top20 <- prune_taxa(top20, ps.top20)
-plot_bar(ps.top20, x="treatment", fill="Family") + facet_wrap(~day, scales="free_x")
-
-
-plot_bar(ps.top20, x="treatment", fill="Genus") 
-
-
-
-
-plot_heatmap(ps.top20)
-
-
-# I could phyloseq merge?
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> 76e5ddd70afc06f49cea234f1130ac9c7115987e

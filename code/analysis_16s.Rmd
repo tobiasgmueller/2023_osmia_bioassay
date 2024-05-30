@@ -54,7 +54,7 @@ ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
 ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
 
 
-plot_ordination(ps.prop, ord.nmds.bray, color="day", title="Bray NMDS")
+plot_ordination(ps.prop, ord.nmds.bray, color="treatments", title="Bray NMDS")
 
 ```
 
@@ -63,12 +63,11 @@ plot_ordination(ps.prop, ord.nmds.bray, color="day", title="Bray NMDS")
 
 # make bar chart
 
-top100 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:100]
-ps.top100 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
-ps.top100 <- prune_taxa(top100, ps.top100)
-plot_bar(ps.top20, x="treatment", fill="Class") + facet_wrap(~day, scales="free_x")
+top20 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:20]
+ps.top20 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
+ps.top20 <- prune_taxa(top20, ps.top20)
+plot_bar(ps.top20, x="treatment", fill="Family") + facet_wrap(~day, scales="free_x")
 
 
-plot_bar(ps.top20, x="treatment", fill="Genus") 
 
 ```
