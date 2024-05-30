@@ -30,8 +30,6 @@ samdf <- read_csv("sequencing_results/sequence_metadata.csv")%>%
   column_to_rownames(var = "id")
   
 
-
-
 # then construct phyloseq object
 
 ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE), 
@@ -107,3 +105,42 @@ saveRDS(ps, "input/processed_sequences/16s/ps_16s.rds")
 
 
 
+<<<<<<< HEAD
+# make an NMDS
+
+ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
+ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
+
+
+plot_ordination(ps.prop, ord.nmds.bray, color="day", title="Bray NMDS")
+
+
+
+
+# make bar chart
+top20 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:20]
+ps.top20 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
+ps.top20 <- prune_taxa(top20, ps.top20)
+plot_bar(ps.top20, x="treatment", fill="Family") + facet_wrap(~day, scales="free_x")
+
+
+plot_bar(ps.top20, x="treatment", fill="Genus") 
+
+
+
+
+plot_heatmap(ps.top20)
+
+
+# I could phyloseq merge?
+
+
+
+
+
+
+
+
+
+=======
+>>>>>>> 76e5ddd70afc06f49cea234f1130ac9c7115987e
