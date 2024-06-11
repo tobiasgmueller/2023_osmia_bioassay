@@ -1,5 +1,5 @@
-# script for 16S dada 2 pipeline
-#following DADA2 tutorial at https://benjjneb.github.io/dada2/tutorial.html
+# script for ITS dada 2 pipeline
+#following DADA2 tutorial at https://benjjneb.github.io/dada2/ITS_workflow.html
 
 
 #install code for dada 2
@@ -23,7 +23,7 @@ packageVersion("Biostrings")
 
 
 # set path to fastq files
-path <- "sequencing_results/16S"  
+path <- "sequencing_results/ITS"  
 list.files(path)
 
 #split into forward and reverse
@@ -31,8 +31,8 @@ fnFs <- sort(list.files(path, pattern = "_R1.fastq.gz", full.names = TRUE))
 fnRs <- sort(list.files(path, pattern = "_R2.fastq.gz", full.names = TRUE))
 
 # read in primer sequences to check for primers
-FWD <- "CMGGATTAGATACCCKGG"  ## 799F
-REV <- "AGGGTTGCGCTCGTTG"  ## 1115R
+FWD <- "CTTGGTCATTTAGAGGAAGTAA"  ## ITS1 forward
+REV <- "GCTGCGTTCTTCATCGATGC"  ## ITS2R reverse
 
 # function to find complements of DNA strings
 allOrients <- function(primer) {
@@ -149,15 +149,14 @@ filtRs <- file.path(path.cut, "filtered", basename(cutRs))
 
 
 out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
-              truncLen=c(220,105),
               maxN=0,
               maxEE=c(2,2),
               truncQ=2,
+              minLen = 50,
               rm.phix=TRUE,
               compress=TRUE,
               multithread=FALSE) # On Windows set multithread=FALSE
 head(out)
-
 
 
 # learn error rate ####
@@ -222,16 +221,16 @@ rownames(track) <- sample.names
 head(track)
 
 #save track
-write.csv(track, file="sequencing_results/16S/track_through_pipe")
+write.csv(track, file="sequencing_results/ITS/track_through_pipe")
 
 #assign taxonomy
 # using SILVA 138.1 @ https://zenodo.org/records/4587955
 
 
-taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/tax/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
+### FIX THIS PART ####
 
-#then add species based on exact taxonomic matching
-taxa <- addSpecies(taxa, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz")
+unite.ref <- "~/tax/sh_general_release_dynamic_s_all_29.11.2022.fasta"  # CHANGE ME to location on your machine
+taxa <- assignTaxonomy(seqtab.nochim, unite.ref, multithread = TRUE, tryRC = TRUE)
 
 
 # look at taxanomic assignments
@@ -245,10 +244,12 @@ head(taxa.print)
 
 
 
-#then for now we'll save them
-saveRDS(taxa, "input/processed_sequences/16S/taxa.rds")
 
-saveRDS(seqtab.nochim, "input/processed_sequences/16S/seqtab_nochim.rds")
+
+#then for now we'll save them
+saveRDS(taxa, "input/processed_sequences/ITS/taxa.rds")
+
+saveRDS(seqtab.nochim, "input/processed_sequences/ITS/seqtab_nochim.rds")
 
 # Restart as necessary
 #taxa <- readRDS("C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/taxa.rds")
