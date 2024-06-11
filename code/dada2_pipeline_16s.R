@@ -1,10 +1,10 @@
 # script for 16S dada 2 pipeline
-#following DADA2 tutorial at https://benjjneb.github.io/dada2/tutorial_1_8.html
+#following DADA2 tutorial at https://benjjneb.github.io/dada2/tutorial.html
 
 
 #install code for dada 2
 
-# ## try http:// if https:// URLs are not supported
+# 
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 BiocManager::install("dada2")
@@ -132,11 +132,11 @@ ShortRead::readFastq(cutRs[1])
 # filter and trim ####
 
 # Place filtered files in filtered/ subdirectory
-filtFs <- file.path(path.cut, "filtered", paste0(sample.names, "_F_filt.fastq.gz"))
-filtRs <- file.path(path.cut, "filtered", paste0(sample.names, "_R_filt.fastq.gz"))
+filtFs <- file.path(path.cut, "filtered", basename(cutFs))
+filtRs <- file.path(path.cut, "filtered", basename(cutRs))
 
 
-out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs,
+out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
               truncLen=c(220,105),
               maxN=0,
               maxEE=c(2,2),
