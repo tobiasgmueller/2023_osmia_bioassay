@@ -7,7 +7,9 @@
 # 
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
-BiocManager::install("dada2")
+
+if (!requireNamespace("BiocManager", quietly=TRUE))
+  BiocManager::install("dada2")
 
 
 #load packages and functions
@@ -52,8 +54,6 @@ fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) # Put N-filtered files in
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 
 filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = FALSE)
-
-
 
 
 
@@ -123,10 +123,16 @@ head(sample.names)
 plotQualityProfile(cutFs[1:2])
 plotQualityProfile(cutRs[1:2])
 
+plotQualityProfile(cutFs, aggregate = TRUE)
+plotQualityProfile(cutRs, aggregate = TRUE)
+
+# cut looking at qualityscore, forward everything is above 30
+# slight drop to ~45 at 220
+
+#for reverse, its ~40 until around 150
+
 ShortRead::readFastq(cutFs[1])
 ShortRead::readFastq(cutRs[1])
-
-
 
 
 # filter and trim ####
@@ -134,6 +140,12 @@ ShortRead::readFastq(cutRs[1])
 # Place filtered files in filtered/ subdirectory
 filtFs <- file.path(path.cut, "filtered", basename(cutFs))
 filtRs <- file.path(path.cut, "filtered", basename(cutRs))
+
+
+# if 220 and 105, this makes 325bp
+# 799 to 1115 = 316bp minus primers of 34bp
+# so overlap of ~43
+
 
 
 out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
