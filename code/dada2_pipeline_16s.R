@@ -129,13 +129,11 @@ ShortRead::readFastq(cutRs[1])
 
 
 
-
-
 # filter and trim ####
 
 # Place filtered files in filtered/ subdirectory
-filtFs <- file.path(path, "filtered", paste0(sample.names, "_F_filt.fastq.gz"))
-filtRs <- file.path(path, "filtered", paste0(sample.names, "_R_filt.fastq.gz"))
+filtFs <- file.path(path.cut, "filtered", paste0(sample.names, "_F_filt.fastq.gz"))
+filtRs <- file.path(path.cut, "filtered", paste0(sample.names, "_R_filt.fastq.gz"))
 
 
 out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs,
