@@ -1,0 +1,70 @@
+---
+title: "16s_pipeline_quality"
+author: "Tobias"
+date: "2024-06-11"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+
+#this sets wd to root dir
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+
+#load packages and functions
+library(dada2)
+packageVersion("dada2")
+library(ShortRead)
+packageVersion("ShortRead")
+library(Biostrings)
+packageVersion("Biostrings")
+
+
+# set path
+path <- "sequencing_results/16S"  
+```
+
+Markdown document for 16s pipeline of 2023 osmia bioassay data
+
+this serves primarily to store quality score and choice information from the 16s pipeline script
+
+This is not intended as a standalone but will follow the 16s pipe script which can be run as a single script. This file will pull from those outputs
+
+
+
+```{r quality score}
+
+path.cut <- file.path(path, "cutadapt")
+
+cutFs <- sort(list.files(path.cut, pattern = "_R1.fastq.gz", full.names = TRUE))
+cutRs <- sort(list.files(path.cut, pattern = "_R2.fastq.gz", full.names = TRUE))
+
+
+plotQualityProfile(cutFs, aggregate = TRUE)
+plotQualityProfile(cutRs, aggregate = TRUE)
+```
+
+
+
+```{r error rate}
+
+filtFs <- file.path(path.cut, "filtered", basename(cutFs))
+filtRs <- file.path(path.cut, "filtered", basename(cutRs))
+
+
+plotErrors(errF, nominalQ=TRUE)
+plotErrors(errR, nominalQ=TRUE)
+```
+
+
+```{r tracking}
+
+track<-read.csv(file="sequencing_results/16S/track_through_pipe")
+track
+```
+
+

@@ -161,8 +161,8 @@ head(out)
 
 
 # learn error rate ####
-errF <- learnErrors(filtFs, multithread=FALSE)
-errR <- learnErrors(filtRs, multithread=FALSE)
+errF <- learnErrors(filtFs, multithread=TRUE)
+errR <- learnErrors(filtRs, multithread=TRUE)
 
 #then plot error rate
 plotErrors(errF, nominalQ=TRUE)
@@ -231,7 +231,8 @@ colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "n
 rownames(track) <- sample.names
 head(track)
 
-
+#save track
+write.csv(track, file="sequencing_results/16S/track_through_pipe")
 
 #assign taxonomy
 # using SILVA 138.1 @ https://zenodo.org/records/4587955
