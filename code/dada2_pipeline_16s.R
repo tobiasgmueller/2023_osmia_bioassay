@@ -20,7 +20,6 @@ packageVersion("Biostrings")
 
 
 
-
 # set path to fastq files
 path <- "sequencing_results/16S"  
 list.files(path)
