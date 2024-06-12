@@ -53,7 +53,7 @@ FWD.orients
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) # Put N-filtered files in filtN/ subdirectory
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 
-filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = FALSE)
+filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
 
 
 
@@ -123,8 +123,8 @@ head(sample.names)
 plotQualityProfile(cutFs[1:2])
 plotQualityProfile(cutRs[1:2])
 
-plotQualityProfile(cutFs, aggregate = TRUE)
-plotQualityProfile(cutRs, aggregate = TRUE)
+#plotQualityProfile(cutFs, aggregate = TRUE)
+#plotQualityProfile(cutRs, aggregate = TRUE)
 
 # cut looking at qualityscore, forward everything is above 30
 # slight drop to ~45 at 220
@@ -170,9 +170,9 @@ plotErrors(errR, nominalQ=TRUE)
 
 
 # sample inference
-dadaFs <- dada(derepFs, err=errF, multithread=TRUE, pool="pseudo")
+dadaFs <- dada(filtFs, err=errF, multithread=TRUE, pool="pseudo")
 
-dadaRs <- dada(derepRs, err=errR, multithread=TRUE, pool="pseudo")
+dadaRs <- dada(filtRs, err=errR, multithread=TRUE, pool="pseudo")
 
 
 # inspect that it went okay
@@ -182,7 +182,7 @@ dadaRs[[1]]
 
 #Merge paird reads ####
 
-mergers <- mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE)
+mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, verbose=TRUE)
 # Inspect the merger data.frame from the first sample
 head(mergers[[1]])
 
@@ -221,7 +221,7 @@ rownames(track) <- sample.names
 head(track)
 
 #save track
-write.csv(track, file="sequencing_results/ITS/track_through_pipe")
+write.csv(track, file="sequencing_results/ITS/track_through_pipe.csv")
 
 #assign taxonomy
 # using SILVA 138.1 @ https://zenodo.org/records/4587955
