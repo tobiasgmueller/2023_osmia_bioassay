@@ -246,15 +246,13 @@ head(taxa.print)
 
 
 #then for now we'll save them
-saveRDS(taxa, "input/16s/taxa.rds")
+saveRDS(taxa, "input/16s/taxa_16s.rds")
 
-saveRDS(seqtab.nochim, "input/16s/seqtab_nochim.rds")
+saveRDS(seqtab.nochim, "input/16s/seqtab_nochim_16s.rds")
 
 
 
 # then polish and write out fasta file, count table, taxonomy table
-
-
 asv_seqs <- colnames(seqtab.nochim)
 asv_headers <- vector(dim(seqtab.nochim)[2], mode="character")
 
@@ -266,16 +264,16 @@ for (i in 1:dim(seqtab.nochim)[2]) {
 
 # fasta of our final ASV seqs:
 asv_fasta <- c(rbind(asv_headers, asv_seqs))
-write(asv_fasta, "input/16s/ASVs.fa")
+write(asv_fasta, "input/16s/ASVs_16s.fa")
 
 # count table:
 asv_tab <- t(seqtab.nochim)
 row.names(asv_tab) <- asv_headers
-write.csv(asv_tab, "input/16s/ASVs_counts.csv")
+write.csv(asv_tab, "input/16s/ASVs_counts_16s.csv")
 
 
 #taxa table
 asv_taxa<-taxa
 row.names(asv_taxa) <- asv_headers
-write.csv(asv_taxa, "input/16s/asv_taxonomy.csv")
+write.csv(asv_taxa, "input/16s/asv_taxonomy_16s.csv")
 
