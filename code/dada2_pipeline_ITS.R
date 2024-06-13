@@ -2,9 +2,12 @@
 #following DADA2 tutorial at https://benjjneb.github.io/dada2/ITS_workflow.html
 
 
-#install code for dada 2
 
-# 
+#clear workspace
+rm(list = ls())
+
+
+#install code for dada 2
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 
@@ -53,7 +56,7 @@ FWD.orients
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) # Put N-filtered files in filtN/ subdirectory
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 
-filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
+filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = FALSE)
 
 
 
@@ -120,16 +123,11 @@ head(sample.names)
 
 
 # inspect read quality
-plotQualityProfile(cutFs[1:2])
-plotQualityProfile(cutRs[1:2])
+plotQualityProfile(cutFs[1:3])
+plotQualityProfile(cutRs[1:3])
 
 #plotQualityProfile(cutFs, aggregate = TRUE)
 #plotQualityProfile(cutRs, aggregate = TRUE)
-
-# cut looking at qualityscore, forward everything is above 30
-# slight drop to ~45 at 220
-
-#for reverse, its ~40 until around 150
 
 ShortRead::readFastq(cutFs[1])
 ShortRead::readFastq(cutRs[1])
@@ -140,12 +138,6 @@ ShortRead::readFastq(cutRs[1])
 # Place filtered files in filtered/ subdirectory
 filtFs <- file.path(path.cut, "filtered", basename(cutFs))
 filtRs <- file.path(path.cut, "filtered", basename(cutRs))
-
-
-# if 220 and 105, this makes 325bp
-# 799 to 1115 = 316bp minus primers of 34bp
-# so overlap of ~43
-
 
 
 out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
@@ -167,11 +159,8 @@ errR <- learnErrors(filtRs, multithread=TRUE)
 plotErrors(errF, nominalQ=TRUE)
 plotErrors(errR, nominalQ=TRUE)
 
-
-
 # sample inference
 dadaFs <- dada(filtFs, err=errF, multithread=TRUE, pool="pseudo")
-
 dadaRs <- dada(filtRs, err=errR, multithread=TRUE, pool="pseudo")
 
 
@@ -181,7 +170,6 @@ dadaRs[[1]]
 
 
 #Merge paird reads ####
-
 mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, verbose=TRUE)
 # Inspect the merger data.frame from the first sample
 head(mergers[[1]])
@@ -190,9 +178,7 @@ head(mergers[[1]])
 
 
 # construct ASV table ####
-
 seqtab <- makeSequenceTable(mergers)
-
 dim(seqtab)
 
 table(nchar(getSequences(seqtab)))
@@ -201,7 +187,6 @@ table(nchar(getSequences(seqtab)))
 
 
 # remove chimeras ####
-
 seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
 dim(seqtab.nochim)
 
@@ -212,7 +197,6 @@ sum(seqtab.nochim)/sum(seqtab)
 
 
 # track reads through pipeline ####
-
 getN <- function(x) sum(getUniques(x))
 track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
 
@@ -223,13 +207,9 @@ head(track)
 #save track
 write.csv(track, file="sequencing_results/ITS/track_through_pipe.csv")
 
-#assign taxonomy
-# using SILVA 138.1 @ https://zenodo.org/records/4587955
 
-
-### FIX THIS PART ####
-
-unite.ref <- "~/tax/sh_general_release_dynamic_s_all_29.11.2022.fasta"  # CHANGE ME to location on your machine
+# assign taxonomy using UNITE database
+unite.ref <- "sequencing_results/ITS/tax/sh_general_release_dynamic_04.04.2024.fasta"  
 taxa <- assignTaxonomy(seqtab.nochim, unite.ref, multithread = TRUE, tryRC = TRUE)
 
 
@@ -243,14 +223,9 @@ head(taxa.print)
 
 
 
-
-
-
-#then for now we'll save them
+#then for save outputs
 saveRDS(taxa, "input/ITS/taxa_ITS.rds")
-
 saveRDS(seqtab.nochim, "input/ITS/seqtab_nochim_ITS.rds")
-
 
 
 # then polish and write out fasta file, count table, taxonomy table
@@ -262,7 +237,6 @@ for (i in 1:dim(seqtab.nochim)[2]) {
 }
 
 
-
 # fasta of our final ASV seqs:
 asv_fasta <- c(rbind(asv_headers, asv_seqs))
 write(asv_fasta, "input/ITS/ASVs_ITS.fa")
@@ -271,7 +245,6 @@ write(asv_fasta, "input/ITS/ASVs_ITS.fa")
 asv_tab <- t(seqtab.nochim)
 row.names(asv_tab) <- asv_headers
 write.csv(asv_tab, "input/ITS/ASVs_counts_ITS.csv")
-
 
 #taxa table
 asv_taxa<-taxa

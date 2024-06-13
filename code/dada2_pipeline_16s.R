@@ -1,10 +1,12 @@
 # script for 16S dada 2 pipeline
 #following DADA2 tutorial at https://benjjneb.github.io/dada2/tutorial.html
 
+#clear workspace
+rm(list = ls())
+
 
 #install code for dada 2
 
-# 
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 
@@ -228,10 +230,10 @@ write.csv(track, file="sequencing_results/16S/track_through_pipe.csv")
 # using SILVA 138.1 @ https://zenodo.org/records/4587955
 
 
-taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/tax/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
+taxa <- assignTaxonomy(seqtab.nochim, "sequencing_results/16s/tax/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
 
 #then add species based on exact taxonomic matching
-taxa <- addSpecies(taxa, "C:/Users/obiew/Desktop/github/2023_osmia_bioassay/sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz")
+taxa <- addSpecies(taxa, "sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz")
 
 
 # look at taxanomic assignments
