@@ -71,3 +71,35 @@ track
 ```
 
 
+```{r contaminants}
+asv_tab <- read.csv("input/16s/asv_counts_16s.csv")
+
+#set column 1 to row names
+asv_tab<- asv_tab %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+asv_tax <- read.csv("input/16s/asv_taxonomy_16s.csv")
+
+#set column 1 to row names
+asv_tax<- asv_tax %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+# create vector saying which samples are controls
+vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30))
+
+contam_df <- isContaminant(t(asv_tab), neg=vector_for_decontam)
+
+table(contam_df$contaminant) # identified 6 as contaminants
+
+# getting vector holding the identified contaminant IDs
+contam_asvs <- row.names(contam_df[contam_df$contaminant == TRUE, ])
+
+# in this case its 2 taxa
+asv_tax[row.names(asv_tax) %in% contam_asvs, ]
+
+```
+Two taxa were found as contaminants and removed

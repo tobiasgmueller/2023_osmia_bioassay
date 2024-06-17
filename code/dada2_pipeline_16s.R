@@ -13,6 +13,10 @@ if (!requireNamespace("BiocManager", quietly=TRUE))
 if (!requireNamespace("BiocManager", quietly=TRUE))
   BiocManager::install("dada2")
 
+if(!requireNamespace("decontam")){
+  install.packages("decontam")
+}
+
 
 #load packages and functions
 library(dada2)
@@ -21,6 +25,7 @@ library(ShortRead)
 packageVersion("ShortRead")
 library(Biostrings)
 packageVersion("Biostrings")
+library(decontam)
 
 
 
@@ -247,14 +252,12 @@ head(taxa.print)
 
 
 
-#then for now we'll save them
+#then save "raw" outputs
 saveRDS(taxa, "input/16s/taxa_16s.rds")
 
 saveRDS(seqtab.nochim, "input/16s/seqtab_nochim_16s.rds")
 
 
-
-# then polish and write out fasta file, count table, taxonomy table
 asv_seqs <- colnames(seqtab.nochim)
 asv_headers <- vector(dim(seqtab.nochim)[2], mode="character")
 
@@ -263,19 +266,75 @@ for (i in 1:dim(seqtab.nochim)[2]) {
 }
 
 
-
 # fasta of our final ASV seqs:
 asv_fasta <- c(rbind(asv_headers, asv_seqs))
-write(asv_fasta, "input/16s/ASVs_16s.fa")
+write(asv_fasta, "input/16s/asv_16s.fa")
 
 # count table:
 asv_tab <- t(seqtab.nochim)
 row.names(asv_tab) <- asv_headers
-write.csv(asv_tab, "input/16s/ASVs_counts_16s.csv")
+write.csv(asv_tab, "input/16s/asv_counts_16s.csv")
 
 
 #taxa table
 asv_taxa<-taxa
 row.names(asv_taxa) <- asv_headers
 write.csv(asv_taxa, "input/16s/asv_taxonomy_16s.csv")
+
+
+
+# now check for contaminants
+
+asv_tab <- read.csv("input/16s/asv_counts_16s.csv")
+
+#set column 1 to row names
+asv_tab<- asv_tab %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+asv_tax <- read.csv("input/16s/asv_taxonomy_16s.csv")
+
+#set column 1 to row names
+asv_tax<- asv_tax %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+# create vector saying which samples are controls
+vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30))
+
+contam_df <- isContaminant(t(asv_tab), neg=vector_for_decontam)
+
+table(contam_df$contaminant) # identified 6 as contaminants
+
+# getting vector holding the identified contaminant IDs
+contam_asvs <- row.names(contam_df[contam_df$contaminant == TRUE, ])
+
+# in this case its 2 taxa -- Micrococcus  and Staphylococcus    
+asv_tax[row.names(asv_tax) %in% contam_asvs, ]
+
+
+
+  
+
+# write out decontaminated files
+
+  # making new fasta file
+contam_indices <- which(asv_fasta %in% paste0(">", contam_asvs))
+dont_want <- sort(c(contam_indices, contam_indices + 1))
+asv_fasta_no_contam <- asv_fasta[- dont_want]
+
+    # making new count table
+asv_tab_no_contam <- asv_tab[!row.names(asv_tab) %in% contam_asvs, ]
+
+    # making new taxonomy table
+asv_tax_no_contam <- asv_tax[!row.names(asv_tax) %in% contam_asvs, ]
+
+    ## and now writing them out to files
+write(asv_fasta_no_contam, "input/16s/asv_16s_nocontam.fa")
+write.csv(asv_tab_no_contam, "input/16s/asv_16s_counts_nocontam.csv")
+write.csv(asv_tax_no_contam, "input/16s/asv_16s_taxonomy_nocontam.csv")
+
+
 

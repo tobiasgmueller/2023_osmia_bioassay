@@ -11,13 +11,54 @@ if(!requireNamespace("phyloseq")){
   install.packages("phyloseq")
 }
 
+
 library(phyloseq); packageVersion("phyloseq")
 library(tidyverse)
 
 
+
+
+
+
+asv_tab <- read.csv("input/its/asv_counts_ITS.csv")
+
+#set column 1 to row names
+asv_tab<- asv_tab %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+asv_tax <- read.csv("input/its/asv_taxonomy_ITS.csv")
+
+#set column 1 to row names
+asv_tax<- asv_tax %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+asv_fasta <- readDNAStringSet("input/its/asv_ITS.fa")
+
+
+#set column 1 to row names
+asv_tax<- asv_tax %>%
+  `row.names<-`(., NULL) %>% 
+   column_to_rownames(var = "X")
+
+
+
+
+
+
+
+
+
+
+
+
+
 # read in dada2 16s pipeline output 
 
-taxa <- readRDS("input/processed_sequences/ITS/ITS_taxa.rds")
+taxa <- readRDS("input/processed_sequences/ITS/taxa_ITS.rds")
 seqtab.nochim <- readRDS("input/processed_sequences/ITS/seqtab_nochim.rds")
 
 
