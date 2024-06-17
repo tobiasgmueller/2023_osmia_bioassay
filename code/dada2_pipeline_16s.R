@@ -38,7 +38,7 @@ fnFs <- sort(list.files(path, pattern = "_R1.fastq.gz", full.names = TRUE))
 fnRs <- sort(list.files(path, pattern = "_R2.fastq.gz", full.names = TRUE))
 
 # read in primer sequences to check for primers
-FWD <- "CMGGATTAGATACCCKGG"  ## 799F
+FWD <- "CMGGATTAGATACCCKGG"  ## 799Fmod3
 REV <- "AGGGTTGCGCTCGTTG"  ## 1115R
 
 # function to find complements of DNA strings
