@@ -6,14 +6,55 @@
 if(!requireNamespace("BiocManager")){
   install.packages("BiocManager")
 }
-
 if(!requireNamespace("phyloseq")){
   install.packages("phyloseq")
 }
+if(!requireNamespace("DESeq2")){
+  install.packages("DESeq2")
+}
+
 
 
 library(phyloseq); packageVersion("phyloseq")
 library(tidyverse)
+library(DESeq2)
+
+
+# read in data from pipeline
+rm(list=ls())
+
+
+count_tab <- read.csv("input/its/asv_counts_ITS.csv", header=T, row.names=1)[ , -c(1:4)]
+
+tax_tab <- as.matrix(read.csv("input/its/asv_its_taxonomy_nocontam.csv", header=T,
+           row.names=1))
+
+sample_info_tab <- read.csv("input/sequence_metadata.csv", row.names=1) %>% 
+      mutate(across( c(treatment, day, description), as.factor) ) 
+  
+
+
+
+# normalize for sampling depth using a variance stabilizing transformation
+
+
+
+# first we need to make a DESeq2 object
+deseq_counts <- DESeqDataSetFromMatrix(count_tab, colData = sample_info_tab, design = ~type) 
+
+
+deseq_counts_vst <- varianceStabilizingTransformation(deseq_counts)
+
+    # and here is pulling out our transformed table
+vst_trans_count_tab <- assay(deseq_counts_vst)
+
+    # and calculating our Euclidean distance matrix
+euc_dist <- dist(t(vst_trans_count_tab))
+
+
+
+
+
 
 
 
