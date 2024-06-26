@@ -10,7 +10,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE)
-
+ 
 #this sets wd to root dir
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
