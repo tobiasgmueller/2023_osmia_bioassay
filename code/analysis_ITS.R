@@ -3,16 +3,14 @@
 
 #read in packages ####
 
-if(!requireNamespace("BiocManager")){
+if (!requireNamespace("BiocManager", quietly=TRUE))
   install.packages("BiocManager")
-}
-if(!requireNamespace("phyloseq")){
-  install.packages("phyloseq")
-}
-if(!requireNamespace("DESeq2")){
-  install.packages("DESeq2")
-}
 
+if (!requireNamespace("phyloseq", quietly=TRUE))
+  BiocManager::install("phyloseq")
+
+if (!requireNamespace("DESeq2", quietly=TRUE))
+  BiocManager::install("DESeq2")
 
 
 library(phyloseq); packageVersion("phyloseq")

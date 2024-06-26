@@ -25,7 +25,7 @@ packageVersion("Biostrings")
 
 
 # set path
-path <- "sequencing_results/16S"  
+path <- "sequencing_results/16s"  
 ```
 
 Markdown document for 16s pipeline of 2023 osmia bioassay data

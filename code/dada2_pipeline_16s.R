@@ -10,12 +10,15 @@ rm(list = ls())
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 
-if (!requireNamespace("BiocManager", quietly=TRUE))
+if (!requireNamespace("dada2", quietly=TRUE))
   BiocManager::install("dada2")
 
-if(!requireNamespace("decontam")){
-  install.packages("decontam")
-}
+if (!requireNamespace("DESeq2", quietly=TRUE))
+  BiocManager::install("DESeq2")
+
+if (!requireNamespace("decontam", quietly=TRUE))
+  BiocManager::install("decontam")
+
 
 
 #load packages and functions
@@ -26,11 +29,11 @@ packageVersion("ShortRead")
 library(Biostrings)
 packageVersion("Biostrings")
 library(decontam)
-
+packageVersion("decontam")
 
 
 # set path to fastq files
-path <- "sequencing_results/16S"  
+path <- "sequencing_results/16s"  
 list.files(path)
 
 #split into forward and reverse
@@ -60,7 +63,7 @@ FWD.orients
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) # Put N-filtered files in filtN/ subdirectory
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 
-filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = FALSE)
+filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
 
 
 
@@ -83,8 +86,12 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]), 
 # cut out remaining primers ####
 # there are a few primers. lets remove these using Cutadapt - which for windows requires a C++ compiler
 
-cutadapt <- "C:/Users/obiew/AppData/Local/Programs/Python/Python312/Scripts/cutadapt" # CHANGE ME to the cutadapt path on your machine
-system2(cutadapt, args = "--version") # Run shell commands from R
+#if running in windows set to cutadapt path
+#cutadapt <- "C:/path/cutadapt" # CHANGE ME to the cutadapt path on your machine
+#system2(cutadapt, args = "--version") # Run shell commands from R
+#then update the below system2 calls to get rid of quotes on cutadapt
+
+system2("cutadapt", args = "--version") # Run shell commands from R
 
 
 # and now trim primers
@@ -101,11 +108,11 @@ R1.flags <- paste("-g", FWD, "-a", REV.RC)
 R2.flags <- paste("-G", REV, "-A", FWD.RC) 
 # Run Cutadapt
 for(i in seq_along(fnFs)) {
-  system2(cutadapt, args = c(R1.flags, R2.flags,
-                             "-m", 20, # drop reads shorter than 20 to remove 0 length reads
-                             "-n", 2, # -n 2 required to remove FWD and REV from reads
-                             "-o", fnFs.cut[i], "-p", fnRs.cut[i], # output files
-                             fnFs.filtN[i], fnRs.filtN[i])) # input files
+  system2("cutadapt", args = c(R1.flags, R2.flags,
+                               "-m", 20, # drop reads shorter than 20 to remove 0 length reads
+                               "-n", 2, # -n 2 required to remove FWD and REV from reads
+                               "-o", fnFs.cut[i], "-p", fnRs.cut[i], # output files
+                               fnFs.filtN[i], fnRs.filtN[i])) # input files
 }
 
 #check that cutting worked
@@ -162,7 +169,7 @@ out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
               truncQ=2,
               rm.phix=TRUE,
               compress=TRUE,
-              multithread=FALSE) # On Windows set multithread=FALSE
+              multithread=TRUE) # On Windows set multithread=FALSE
 head(out)
 
 
