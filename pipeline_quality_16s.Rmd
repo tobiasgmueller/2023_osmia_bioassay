@@ -16,12 +16,16 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
   
 
 #load packages and functions
+#load packages and functions
 library(dada2)
 packageVersion("dada2")
 library(ShortRead)
 packageVersion("ShortRead")
 library(Biostrings)
 packageVersion("Biostrings")
+library(decontam)
+packageVersion("decontam")
+library(tidyverse)
 
 
 # set path

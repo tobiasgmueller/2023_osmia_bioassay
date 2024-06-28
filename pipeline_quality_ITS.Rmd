@@ -22,7 +22,9 @@ library(ShortRead)
 packageVersion("ShortRead")
 library(Biostrings)
 packageVersion("Biostrings")
-
+library(decontam)
+packageVersion("decontam")
+library(tidyverse)
 
 # set path
 path <- "sequencing_results/ITS"  

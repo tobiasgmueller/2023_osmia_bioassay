@@ -290,7 +290,7 @@ write.csv(asv_taxa, "input/16s/asv_taxonomy_16s.csv")
 
 
 
-# now check for contaminants
+# now check for contaminants ####
 
 asv_tab <- read.csv("input/16s/asv_counts_16s.csv")
 
