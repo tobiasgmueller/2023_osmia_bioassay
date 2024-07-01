@@ -33,6 +33,7 @@ filter <- "(cutFs, filtFs, cutRs, filtRs,
                      rm.phix=TRUE,
                      compress=TRUE,
                      multithread=TRUE)"
+vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30)) # where nc are located
 
 # set path to fastq files
 path <- paste("sequencing_results/", run, sep="")
@@ -350,8 +351,6 @@ asv_tax<- asv_tax %>%
   column_to_rownames(var = "X")
 
 # create vector saying which samples are controls
-vector_for_decontam <- c(rep(FALSE, 240), rep(TRUE, 11))
-
 contam_df <- isContaminant(t(asv_tab), neg=vector_for_decontam)
 
 table(contam_df$contaminant) # identified 6 as contaminants
