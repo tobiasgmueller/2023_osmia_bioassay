@@ -24,7 +24,7 @@ rm(list = ls())
 run = "16s"
 FWD <- "CMGGATTAGATACCCKGG"  ## 799Fmod3
 REV <- "AGGGTTGCGCTCGTTG"  ## 1115R
-filter <- "(cutFs, filtFs, cutRs, filtRs,
+filterparam <- "(cutFs, filtFs, cutRs, filtRs,
                      trunclen=c(175,145),
                      maxN=0,
                      maxEE=c(2,2),
@@ -34,6 +34,22 @@ filter <- "(cutFs, filtFs, cutRs, filtRs,
                      compress=TRUE,
                      multithread=TRUE)"
 vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30)) # where nc are located
+
+
+#-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # set path to fastq files
 path <- paste("sequencing_results/", run, sep="")

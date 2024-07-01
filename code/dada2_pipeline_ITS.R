@@ -6,8 +6,6 @@
 #clear workspace
 rm(list = ls())
 
-
-
 # set run name and primers. everything should autofill from here
 #file structure should be:
 
@@ -24,7 +22,33 @@ rm(list = ls())
 run = "ITS"
 FWD <- "CTTGGTCATTTAGAGGAAGTAA"  ## ITS1 forward
 REV <- "GCTGCGTTCTTCATCGATGC"  ## ITS2R reverse
+filterparam <- "(cutFs, filtFs, cutRs, filtRs,
+              maxN=0,
+              maxEE=c(2,2),
+              truncQ=2,
+              minLen = 50,
+              rm.phix=TRUE,
+              compress=TRUE,
+              multithread=TRUE)"
 vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30)) # where nc are located
+
+
+
+#-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # set path to fastq files
 path <- paste("sequencing_results/", run, sep="")
