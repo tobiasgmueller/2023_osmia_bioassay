@@ -1,9 +1,10 @@
 # script for 16S dada 2 pipeline
 #following DADA2 tutorial at https://benjjneb.github.io/dada2/tutorial.html
 
-
 #clear workspace
 rm(list = ls())
+
+
 
 
 
@@ -39,6 +40,7 @@ list.files(path)
 
 
 #install code for dada 2
+
 if (!requireNamespace("BiocManager", quietly=TRUE))
   install.packages("BiocManager")
 
@@ -50,6 +52,7 @@ if (!requireNamespace("DESeq2", quietly=TRUE))
 
 if (!requireNamespace("decontam", quietly=TRUE))
   BiocManager::install("decontam")
+
 
 
 #load packages and functions
@@ -65,13 +68,12 @@ library(tidyverse)
 
 
 
-test = paste("sequencing_results/", run, sep="")
-
-
 
 #split into forward and reverse
 fnFs <- sort(list.files(path, pattern = "_R1.fastq.gz", full.names = TRUE))
 fnRs <- sort(list.files(path, pattern = "_R2.fastq.gz", full.names = TRUE))
+
+
 
 
 # function to find complements of DNA strings
@@ -194,7 +196,7 @@ out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
               truncQ=2,
               rm.phix=TRUE,
               compress=TRUE,
-              multithread=FALSE) # On Windows set multithread=FALSE
+              multithread=TRUE) # On Windows set multithread=FALSE
 head(out)
 
 
@@ -226,6 +228,7 @@ Sys.sleep(30)
 
 
 #Merge paird reads ####
+
 mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, verbose=TRUE)
 # Inspect the merger data.frame from the first sample
 head(mergers[[1]])
@@ -275,33 +278,14 @@ head(track)
 write.csv(track, file=paste("sequencing_results/tempfiles/", run, "/track_through_pipe.csv", sep=""))
 
 
-
 #assign taxonomy
 # using SILVA 138.1 @ https://zenodo.org/records/4587955
+
+
 taxa <- assignTaxonomy(seqtab.nochim, "sequencing_results/16s/tax/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
 
 #then add species based on exact taxonomic matching
-addspecies_ref <- "sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz"
-
-# taxa <- addSpecies(taxa, addspecies_ref)
-# this is using over 60gb of ram and then crashing so im going to split things into chuncks
-
-chunk.size <- 4000
-chunks <- split(c(1:nrow(taxa)),
-                sort(c(1:nrow(taxa))%%ceiling(nrow(taxa)/chunk.size)))
-
-chunks.species <- lapply(chunks,
-                         function(x){
-                           return(addSpecies(taxa[x,],
-                                             refFasta = addspecies_ref, verbose = TRUE))
-                         })
-taxa <- do.call(rbind, chunks.species)
-
-
-
-
-
-
+taxa <- addSpecies(taxa, "sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz")
 
 
 
@@ -316,6 +300,7 @@ head(taxa.print)
 
 
 
+<<<<<<< HEAD
 #then for now we'll save them
 saveRDS(taxa, paste("input/", run, "/taxa_", run, ".rds", sep=""))
 saveRDS(seqtab.nochim, paste("input/", run, "/seqtab_nochim_", run, ".rds", sep=""))
@@ -357,7 +342,6 @@ asv_tab<- asv_tab %>%
 
 
 asv_tax <- read.csv(paste("input/", run, "/asv_taxonomy_", run, ".csv", sep=""))
-
 
 
 #set column 1 to row names

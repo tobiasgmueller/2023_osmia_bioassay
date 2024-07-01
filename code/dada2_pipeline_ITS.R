@@ -2,6 +2,7 @@
 #following DADA2 tutorial at https://benjjneb.github.io/dada2/ITS_workflow.html
 
 
+
 #clear workspace
 rm(list = ls())
 
@@ -30,6 +31,7 @@ path <- paste("sequencing_results/", run, sep="")
 list.files(path)
 
 
+
 #install code for dada 2
 if (!requireNamespace("BiocManager", quietly=TRUE))
   install.packages("BiocManager")
@@ -54,7 +56,6 @@ packageVersion("Biostrings")
 library(decontam)
 packageVersion("decontam")
 library(tidyverse)
-
 
 
 test = paste("sequencing_results/", run, sep="")
@@ -155,16 +156,10 @@ head(sample.names)
 
 
 # inspect read quality
-plotQualityProfile(cutFs[1:2])
-plotQualityProfile(cutRs[1:2])
+plotQualityProfile(cutFs[1:3])
+plotQualityProfile(cutRs[1:3])
 
-#plotQualityProfile(cutFs, aggregate = TRUE)
-#plotQualityProfile(cutRs, aggregate = TRUE)
 
-# cut looking at qualityscore, forward everything is above 30
-# slight drop to ~45 at 220
-
-#for reverse, its ~40 until around 150
 
 ShortRead::readFastq(cutFs[1])
 ShortRead::readFastq(cutRs[1])
@@ -177,7 +172,6 @@ filtFs <- file.path(path.cut, "filtered", basename(cutFs))
 filtRs <- file.path(path.cut, "filtered", basename(cutRs))
 
 
-
 out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
               maxN=0,
               maxEE=c(2,2),
@@ -185,7 +179,7 @@ out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
               minLen = 50,
               rm.phix=TRUE,
               compress=TRUE,
-              multithread=FALSE) # On Windows set multithread=FALSE
+              multithread=TRUE) # On Windows set multithread=FALSE
 head(out)
 
 
@@ -199,11 +193,8 @@ errR <- learnErrors(filtRs, multithread=TRUE)
 plotErrors(errF, nominalQ=TRUE)
 plotErrors(errR, nominalQ=TRUE)
 
-
-
 # sample inference
 dadaFs <- dada(filtFs, err=errF, multithread=TRUE, pool="pseudo")
-
 dadaRs <- dada(filtRs, err=errR, multithread=TRUE, pool="pseudo")
 
 
@@ -211,9 +202,9 @@ dadaRs <- dada(filtRs, err=errR, multithread=TRUE, pool="pseudo")
 dadaFs[[1]]
 dadaRs[[1]]
 
-
 # quick pause to let things cool down
 Sys.sleep(30)
+
 
 
 #Merge paird reads ####
@@ -230,9 +221,7 @@ saveRDS(mergers, paste("sequencing_results/tempfiles/", run, "/mergers_", run, "
 #mergers <-readRDS("sequencing_results/tempfiles/16s/mergers_16s.rds")
 
 # construct ASV table ####
-
 seqtab <- makeSequenceTable(mergers)
-
 dim(seqtab)
 
 table(nchar(getSequences(seqtab)))
@@ -241,7 +230,6 @@ table(nchar(getSequences(seqtab)))
 
 
 # remove chimeras ####
-
 seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
 dim(seqtab.nochim)
 
@@ -254,7 +242,6 @@ sum(seqtab.nochim)/sum(seqtab)
 
 
 # track reads through pipeline ####
-
 getN <- function(x) sum(getUniques(x))
 track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
 
@@ -266,32 +253,9 @@ head(track)
 write.csv(track, file=paste("sequencing_results/tempfiles/", run, "/track_through_pipe.csv", sep=""))
 
 
-
-
-#assign taxonomy
-# using SILVA 138.1 @ https://zenodo.org/records/4587955
-
-
-taxa <- assignTaxonomy(seqtab.nochim, "sequencing_results/16s/tax/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
-
-
-
-#then add species based on exact taxonomic matching
-addspecies_ref <- "sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz"
-
-# taxa <- addSpecies(taxa, addspecies_ref)
-# this is using over 60gb of ram and then crashing so im going to split things into chuncks
-
-chunk.size <- 4000
-chunks <- split(c(1:nrow(taxa)),
-                sort(c(1:nrow(taxa))%%ceiling(nrow(taxa)/chunk.size)))
-
-chunks.species <- lapply(chunks,
-                         function(x){
-                           return(addSpecies(taxa[x,],
-                                             refFasta = addspecies_ref, verbose = TRUE))
-                         })
-taxa <- do.call(rbind, chunks.species)
+# assign taxonomy using UNITE database
+unite.ref <- "sequencing_results/ITS/tax/sh_general_release_dynamic_04.04.2024.fasta"  
+taxa <- assignTaxonomy(seqtab.nochim, unite.ref, multithread = TRUE, tryRC = TRUE)
 
 
 
@@ -302,11 +266,74 @@ head(taxa.print)
 
 
 
-
 #then for now we'll save them
 saveRDS(taxa, paste("input/", run, "/taxa_", run, ".rds", sep=""))
 saveRDS(seqtab.nochim, paste("input/", run, "/seqtab_nochim_", run, ".rds", sep=""))
 
+
+
+asv_seqs <- colnames(seqtab.nochim)
+asv_headers <- vector(dim(seqtab.nochim)[2], mode="character")
+
+for (i in 1:dim(seqtab.nochim)[2]) {
+    asv_headers[i] <- paste("ASV", i, sep="_")
+}
+
+
+# fasta of our final ASV seqs:
+asv_fasta <- c(rbind(asv_headers, asv_seqs))
+write(asv_fasta, "input/ITS/asv_ITS.fa")
+
+# count table:
+asv_tab <- t(seqtab.nochim)
+row.names(asv_tab) <- asv_headers
+write.csv(asv_tab, "input/ITS/asv_counts_ITS.csv")
+
+#taxa table
+asv_taxa<-taxa
+row.names(asv_taxa) <- asv_headers
+write.csv(asv_taxa, "input/ITS/asv_taxonomy_ITS.csv")
+
+
+
+# now check for contaminants
+
+# create vector saying which samples are controls
+vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30))
+
+
+contam_df <- isContaminant(t(asv_tab), neg=vector_for_decontam)
+
+table(contam_df$contaminant) # identified 6 as contaminants
+
+# getting vector holding the identified contaminant IDs
+contam_asvs <- row.names(contam_df[contam_df$contaminant == TRUE, ])
+
+# in this case its an unidentified fungi
+asv_tax[row.names(asv_tax) %in% contam_asvs, ]
+
+
+
+  
+
+# write out decontaminated files
+
+
+  # making new fasta file
+contam_indices <- which(asv_fasta %in% paste0(">", contam_asvs))
+dont_want <- sort(c(contam_indices, contam_indices + 1))
+asv_fasta_no_contam <- asv_fasta[- dont_want]
+
+    # making new count table
+asv_tab_no_contam <- asv_tab[!row.names(asv_tab) %in% contam_asvs, ]
+
+    # making new taxonomy table
+asv_tax_no_contam <- asv_tax[!row.names(asv_tax) %in% contam_asvs, ]
+
+    ## and now writing them out to files
+write(asv_fasta_no_contam, "input/its/asv_its_nocontam.fa")
+write.csv(asv_tab_no_contam, "input/its/asv_its_counts_nocontam.csv")
+write.csv(asv_tax_no_contam, "input/its/asv_its_taxonomy_nocontam.csv")
 
 
 # then polish and write out fasta file, count table, taxonomy table

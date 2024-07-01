@@ -1,5 +1,5 @@
 ---
-title: "16s_pipeline_quality"
+title: "pipeline_quality_ITS"
 author: "Tobias"
 date: "2024-06-11"
 output: html_document
@@ -10,12 +10,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE)
-
+ 
 #this sets wd to root dir
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-  
 
-#load packages and functions
+
 #load packages and functions
 library(dada2)
 packageVersion("dada2")
@@ -27,16 +26,15 @@ library(decontam)
 packageVersion("decontam")
 library(tidyverse)
 
-
 # set path
-path <- "sequencing_results/16s"  
+path <- "sequencing_results/ITS"  
 ```
 
-Markdown document for 16s pipeline of 2023 osmia bioassay data
+Markdown document for ITS pipeline of 2023 osmia bioassay data
 
 this serves primarily to store quality score and choice information from the 16s pipeline script
 
-This is not intended as a standalone but will follow the 16s pipe script which can be run as a single script. This file will pull from those outputs
+This is not intended as a standalone but will follow the ITS pipe script which can be run as a single script. This file will pull from those outputs
 
 
 
@@ -70,40 +68,8 @@ plotErrors(errR, nominalQ=TRUE)
 
 ```{r tracking}
 
-track<-read.csv(file="sequencing_results/16S/track_through_pipe.csv")
+track<-read.csv(file="sequencing_results/ITS/track_through_pipe.csv")
 track
 ```
 
 
-```{r contaminants}
-asv_tab <- read.csv("input/16s/asv_counts_16s.csv")
-
-#set column 1 to row names
-asv_tab<- asv_tab %>%
-  `row.names<-`(., NULL) %>% 
-   column_to_rownames(var = "X")
-
-
-asv_tax <- read.csv("input/16s/asv_taxonomy_16s.csv")
-
-#set column 1 to row names
-asv_tax<- asv_tax %>%
-  `row.names<-`(., NULL) %>% 
-   column_to_rownames(var = "X")
-
-
-# create vector saying which samples are controls
-vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30))
-
-contam_df <- isContaminant(t(asv_tab), neg=vector_for_decontam)
-
-table(contam_df$contaminant) # identified 6 as contaminants
-
-# getting vector holding the identified contaminant IDs
-contam_asvs <- row.names(contam_df[contam_df$contaminant == TRUE, ])
-
-# in this case its 2 taxa
-asv_tax[row.names(asv_tax) %in% contam_asvs, ]
-
-```
-Two taxa were found as contaminants and removed
