@@ -8,7 +8,8 @@ rm(list = ls())
 
 
 
-# set run name and primers. everything should autofill from here
+# set run name and primers. everything should autofill from here except trim lengths
+# trim lengths must be supplied to filtertrim
 #file structure should be:
 
 #> working_dir
@@ -348,8 +349,6 @@ table(contam_df$contaminant) # identified 6 as contaminants
 # getting vector holding the identified contaminant IDs
 contam_asvs <- row.names(contam_df[contam_df$contaminant == TRUE, ])
 
-# in this case its 15 taxa 
-# though some dont seem like common contaminants
 asv_tax[row.names(asv_tax) %in% contam_asvs, ]
 
 

@@ -22,14 +22,6 @@ rm(list = ls())
 run = "ITS"
 FWD <- "CTTGGTCATTTAGAGGAAGTAA"  ## ITS1 forward
 REV <- "GCTGCGTTCTTCATCGATGC"  ## ITS2R reverse
-filterparam <- "(cutFs, filtFs, cutRs, filtRs,
-              maxN=0,
-              maxEE=c(2,2),
-              truncQ=2,
-              minLen = 50,
-              rm.phix=TRUE,
-              compress=TRUE,
-              multithread=TRUE)"
 vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30)) # where nc are located
 
 
@@ -223,8 +215,8 @@ dadaRs <- dada(filtRs, err=errR, multithread=TRUE, pool="pseudo")
 
 
 # inspect that it went okay
-dadaFs[[1]]
-dadaRs[[1]]
+dadaFs[[2]]
+dadaRs[[2]]
 
 # quick pause to let things cool down
 Sys.sleep(30)
@@ -343,13 +335,12 @@ asv_tax<- asv_tax %>%
 # create vector saying which samples are controls
 contam_df <- isContaminant(t(asv_tab), neg=vector_for_decontam)
 
-table(contam_df$contaminant) # identified 6 as contaminants
+table(contam_df$contaminant) 
 
 # getting vector holding the identified contaminant IDs
 contam_asvs <- row.names(contam_df[contam_df$contaminant == TRUE, ])
 
-# in this case its 15 taxa 
-# though some dont seem like common contaminants
+
 asv_tax[row.names(asv_tax) %in% contam_asvs, ]
 
 

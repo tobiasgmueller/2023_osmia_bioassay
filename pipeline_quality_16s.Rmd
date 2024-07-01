@@ -70,7 +70,7 @@ plotErrors(errR, nominalQ=TRUE)
 
 ```{r tracking}
 
-track<-read.csv(file="sequencing_results/16S/track_through_pipe.csv")
+track<-read.csv(file="sequencing_results/16s/track_through_pipe.csv")
 track
 ```
 
