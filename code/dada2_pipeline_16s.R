@@ -24,29 +24,10 @@ rm(list = ls())
 run = "16s"
 FWD <- "CMGGATTAGATACCCKGG"  ## 799Fmod3
 REV <- "AGGGTTGCGCTCGTTG"  ## 1115R
-filterparam <- "(cutFs, filtFs, cutRs, filtRs,
-                     trunclen=c(175,145),
-                     maxN=0,
-                     maxEE=c(2,2),
-                     truncQ=2,
-                     minLen = 50,
-                     rm.phix=TRUE,
-                     compress=TRUE,
-                     multithread=TRUE)"
 vector_for_decontam <- c(rep(TRUE, 1), rep(FALSE, 30)) # where nc are located
 
 
 #-------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -205,7 +186,6 @@ filtRs <- file.path(path.cut, "filtered", basename(cutRs))
 # 799 to 1115 = 316bp minus primers of 34bp
 # so overlap of ~43
 
-
 out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs,
               truncLen=c(220,105),
               maxN=0,
@@ -304,8 +284,6 @@ taxa <- assignTaxonomy(seqtab.nochim, "sequencing_results/16s/tax/silva_nr99_v13
 #then add species based on exact taxonomic matching
 taxa <- addSpecies(taxa, "sequencing_results/16s/tax/silva_species_assignment_v138.1.fa.gz")
 
-
-
 # look at taxanomic assignments
 taxa.print <- taxa # Removing sequence rownames for display only
 rownames(taxa.print) <- NULL
@@ -315,13 +293,9 @@ head(taxa.print)
 
 
 
-
-
-<<<<<<< HEAD
 #then for now we'll save them
 saveRDS(taxa, paste("input/", run, "/taxa_", run, ".rds", sep=""))
 saveRDS(seqtab.nochim, paste("input/", run, "/seqtab_nochim_", run, ".rds", sep=""))
-
 
 
 # then polish and write out fasta file, count table, taxonomy table
