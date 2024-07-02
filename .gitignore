@@ -3,5 +3,4 @@
 .RData
 .Ruserdata
 
-sequencing_results/ITS
-sequencing_results/16s
+sequencing_results
