@@ -16,6 +16,8 @@ rm(list = ls())
     #> sequencing_results
         #> ITS (fastq files here)
         #> 16s (fastq files here)
+          #> tax
+            #>  Silva references
         #> tempfiles
           #> ITS
           #> 16s  
