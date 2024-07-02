@@ -273,7 +273,7 @@ rownames(track) <- sample.names
 head(track)
 
 #save track
-write.csv(track, file=paste("sequencing_results/tempfiles/", run, "/track_through_pipe.csv", sep=""))
+write.csv(track, file=paste("sequencing_results/", run, "/track_through_pipe.csv", sep=""))
 
 
 #assign taxonomy
